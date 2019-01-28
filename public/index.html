@@ -2,13 +2,24 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Learning diary</title>
+    <title>Learning Diary</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="/styles/style.css" />
     <script src="/js/client.js"></script>
 </head>
 <body>
-    
+    <h2>Learning Diary</h2>
+    <div>
+        <form action="/login" method="POST">
+            <fieldset>
+                <legend>Login to The Learning Diary</legend>
+                <pre>
+                    <input type="text" name="uname" value="username" id="uname" />
+                    <br />
+                    <input type="submit" value="Login" id="login" />
+                </pre>
+            </fieldset>
+        </form>
+    </div>
 </body>
 </html>
