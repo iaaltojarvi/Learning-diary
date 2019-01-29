@@ -34,8 +34,12 @@ module.exports = {
         var writer = params.name;
         var wid = params.id;
         var entry = params.diaryEntry;
-        currentTextId += 1;
-        var entryId = currentTextId;
+       // currentTextId += 1;
+        //var entryId = currentTextId;
+
+        var d = new Date(); //current time
+        var entryId = d.getMilliseconds(); 
+       // console.log(entryId);
         var entryDate = params.date;
         var writerFound = false;
        
