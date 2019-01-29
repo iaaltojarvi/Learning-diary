@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <script src="./js/client.js"></script>
+    <script src="client.js"></script>
     <!--Eikös tämän script ole täällä?-->
 </head>
 
@@ -25,11 +25,13 @@
                 <li><a href="#">Make diary entry</a></li>
                 <li><a href="#">My entries</a></li>
             </ul>
-            <button id="logout" class="btn btn-primary navbar-btn">Log out</button>
+            <form method="POST" action="/logout">
+            <button type="submit" id="logout" class="btn btn-primary navbar-btn">Log out</button>
+        </form>
         </div>
     </nav>
     <br><br><br><br><br>
-    <span id="welcome"><br>
+    Hei <span id="welcome"></span>!<br>
         <div class="form-group">
             <label for="date">Date:</label><br>
             <input type="date" class="form-control" id="date"><br>
