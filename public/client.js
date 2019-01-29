@@ -35,6 +35,36 @@ $(document).ready(function () {
 
     });
 
+    $("#btn_my").click(function () {
+        //Vaatii tuloksen käsittelyn tauluun
+        $.getJSON('/api/diaryEntries/'+cookie[1], function (jsondata) {
+            var $entryList = $("tbody");
+            $entryList.empty();
+            var journalItems = jsondata;
+           // console.log("haetaan userin entryt ", cookie[1]);
+            for (var index in journalItems) {
+                var writer = journalItems[index].name;
+                var id = journalItems[index].id;
+                var diaryEntries = journalItems[index].diaryItemList;
+               // console.log(diaryEntries.length);
+                for (var textindex in diaryEntries) {
+                    var diaryText = diaryEntries[textindex].diaryText;
+                    var date = diaryEntries[textindex].date;
+                    var $tr = $("<tr>");
+                    $tr.appendTo($entryList);
+                    //   ($("<td>").text(date).$("<td>").text(writer).$("<td>").text(diaryText)).appendTo($tr);
+                    $("<td>").text(date).appendTo($tr);
+                    $("<td>").text(writer).appendTo($tr);
+                    $("<td>").text(diaryText).appendTo($tr);
+
+                }
+
+            }
+
+        })
+
+    });
+
     $("#btn-add").click(function () {
 
         // var $writer = $("#writer").val();

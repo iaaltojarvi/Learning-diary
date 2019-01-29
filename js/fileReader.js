@@ -88,16 +88,20 @@ function writeToDiaryFile(filename, diaryInput) {
     });
 };
 
+     /* Finds users diary entrie. Reads them from data.json 
+        - private function, access is possibe only from fileReader.js
+        - jsonContents is the data from data.json
+        - if user was not found return an empty array
+    */
 function findUsersEntries(jsonContents, user) {
     var writerFound = false;
     var emptyArray = [];
+    
     for (var indeksi in jsonContents) {
            
         if(jsonContents[indeksi].name == user) { //if writer was found from data.json
             writerFound = true;
             var oldJournalEntries = jsonContents[indeksi].diaryItemList;
-           // jsonContents[indeksi].diaryItemList = makeDiaryItemList(olderJournalEntries, entry, entryDate);
-           // writeToDiaryFile('./files/data.json', jsonContents);
            return oldJournalEntries; //returns writers old diary entries as an array
         }
     }
