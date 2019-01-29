@@ -6,3 +6,14 @@
 #logout {
     float: right;
 }
+
+body, html {
+    height: 100%;
+}
+
+#btn {
+    margin: 15px;
+}
+.ulkospan {
+    margin: 15px;
+}

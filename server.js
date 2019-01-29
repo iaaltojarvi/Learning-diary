@@ -22,7 +22,7 @@ app.post('/login', function(req, res) {
 })
 
 //Logout
-app.post('/goodbye', function(req, res) {
+app.post('/logout', function(req, res) {
     res.clearCookie('username');
     res.redirect('/');
 });

@@ -1,8 +1,9 @@
 
-
-
 $(document).ready(function() {
-    var cookie = document.cookie.split("=");
+    // cookie username to write hello username
+    const cookie = document.cookie.split("=");
+    const span = $('#welcome');
+      span.text(`${cookie[1]}`);
     
     $("#btn").click(function() {
         
