@@ -75,5 +75,5 @@ body {
 }
 
 #footer {
-    float: bottom   ;
+    float: bottom !important;
 }
