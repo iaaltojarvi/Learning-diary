@@ -32,10 +32,10 @@ $(document).ready(function() {
        // var $writer = $("#writer").val();
         var writer = cookie[1];
         console.log("kirjoittaja", writer); //value from cookie
-        
+        var $date = $("#date").val();
         var $entry = $("#learned").val();
 
-        var diaryEntry = {"name": writer, "id": 22, "diaryEntry": $entry};
+        var diaryEntry = {"name": writer, "id": 22, "diaryEntry": $entry, "date": $date};
         //console.dir(JSON.stringify(diaryEntry));
         var settings = {
                         "async": true,
