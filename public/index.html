@@ -2,13 +2,31 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Learning diary</title>
+    <title>Learning Diary</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="/styles/style.css" />
+
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="/js/client.js"></script>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/style.css" />
+
 </head>
 <body>
-    
+    <div class="container">
+        <div class="login-container">
+            <div id="output"></div>
+            <div class="avatar"></div>
+            <div class="form-box">
+                <form action="/login" method="POST">
+                    <input name="username" type="text" placeholder="username">
+                    <button class="btn btn-info btn-block login" type="submit">Login</button>
+                </form>
+            </div>
+        </div>            
+    </div>
+    <footer>Copyright Inari, Mari, Jukka and Ville (Academy) 2019</footer>
 </body>
 </html>
