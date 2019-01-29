@@ -24,11 +24,13 @@
                 <li><a href="#">Make diary entry</a></li>
                 <li><a href="#">My entries</a></li>
             </ul>
-            <button id="logout" class="btn btn-primary navbar-btn">Log out</button>
+            <form method="POST" action="/logout">
+            <button type="submit" id="logout" class="btn btn-primary navbar-btn">Log out</button>
+        </form>
         </div>
     </nav>
     <br><br><br><br><br>
-    <span id="welcome"><br>
+    Hei <span id="welcome"></span>!<br>
         <div class="form-group">
             <label for="date">Date:</label><br>
             <input type="date" class="form-control" id="date"><br>

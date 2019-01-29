@@ -1,0 +1,16 @@
+.form-group {
+    width: 50%;
+    margin: 15px;
+    font-size: medium;
+}
+#logout {
+    float: right;
+}
+
+body, html {
+    height: 100%;
+}
+
+#btn {
+    margin: 15px;
+}
