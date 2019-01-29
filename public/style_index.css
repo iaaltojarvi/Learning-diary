@@ -69,11 +69,15 @@ body {
     font-weight: 300;
 }
 
+.login-footer-text{
+    margin-top: 80%;
+    padding: 10px;
+    color: #fff;
+    font-weight: 0;
+    font-size: 0.7em;
+}
+
 .btn-black{
     background-color: #000 !important;
     color: #fff;
-}
-
-#footer {
-    float: bottom !important;
 }
