@@ -21,6 +21,11 @@ module.exports = {
         });
     },
 
+    readUsersEntries: function(fileContent, username) {
+        var usersEntries = findUsersEntries(fileContent, username);
+        return usersEntries;
+    },
+
     /*Saves new diary entry to the data.json file
         - params is the req.body
         - jsonContents of the data.json file are given as a parameter to the callback function
@@ -82,3 +87,22 @@ function writeToDiaryFile(filename, diaryInput) {
         console.log("Saved to files");
     });
 };
+
+function findUsersEntries(jsonContents, user) {
+    var writerFound = false;
+    var emptyArray = [];
+    for (var indeksi in jsonContents) {
+           
+        if(jsonContents[indeksi].name == user) { //if writer was found from data.json
+            writerFound = true;
+            var oldJournalEntries = jsonContents[indeksi].diaryItemList;
+           // jsonContents[indeksi].diaryItemList = makeDiaryItemList(olderJournalEntries, entry, entryDate);
+           // writeToDiaryFile('./files/data.json', jsonContents);
+           return oldJournalEntries; //returns writers old diary entries as an array
+        }
+    }
+
+    if (!writerFound) {
+        return emptyArray;
+    }
+}

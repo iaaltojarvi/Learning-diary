@@ -43,6 +43,15 @@ router.route('/diaryEntries')
     })
 });
 
+//returns users diaryentries, if nothing was found sends an empty json array
+router.route('/diaryEntries/:username')
+.get(function(req, res) {
+    reader.readDiaryFile('./files/data.json', function(fileContent) {
+        var usersDiaryEntries = reader.readUsersEntries(fileContent, req.params.username);
+        res.json(usersDiaryEntries);
+    });  
+})
+
 app.use('/api', router);
 
 let server = app.listen(3000, () => {
