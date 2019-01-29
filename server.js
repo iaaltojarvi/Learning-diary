@@ -30,48 +30,29 @@ app.post('/logout', function(req, res) {
 //get all the diary entries
 router.route('/diaryEntries')
 .get(function (req, res) {
-    console.dir(req.query);
     reader.readDiaryFile('./files/data.json', function(fileContent) {
-        //console.log(fileContent);
         res.json(fileContent);
     });  
 })
 
-//add a diary entry
+//add a diary entry to data.json, returns new entry
 .post(function(req, res) {
-    console.dir("postin req.body",req.body);
-    var list = [];
-    var vanhaNimi = false;
-
-    reader.readDiaryFile('./files/data.json', function(filu){
-        //console.log(filu);
-        for (var indeksi in filu) {
-           // console.log("Filun sisalto",filu);
-            if(filu[indeksi].name == req.body.name) {
-               // console.log(filu[indeksi].name);
-                //console.log("filu diaryitemlist", filu[indeksi].diaryItemList);
-                vanhaNimi = true;
-                list = filu[indeksi].diaryItemList;
-                var olderJournalEntries = list;
-                filu[indeksi].diaryItemList= reader.makeDiaryItemList(olderJournalEntries, req.body);
-                reader.writeToDiaryFile('./files/data.json', filu);
-            }
-        }
-
-        if (!vanhaNimi) {
-            console.log("Uusi kirjoittaja");
-            var diaryobject = reader.makeJsonObject(req.body);
-            console.log(diaryobject);
-            filu.push(diaryobject);
-            reader.writeToDiaryFile('./files/data.json', filu);
-        }
-
-        res.json(req.body);
-
-
+    reader.readDiaryFile('./files/data.json', function(contentsOfJson){
+        var newDiaryEntry = reader.saveNewEntryToJsonFile(req.body, contentsOfJson);
+        res.json(newDiaryEntry);
     })
-
 });
+
+//returns users diaryentries (an array), if nothing was found sends an empty json array
+router.route('/diaryEntries/:username')
+.get(function(req, res) {
+   // console.log("Haetaan userin entryt, serverissä");
+   // console.log("user parametri", req.params.username);
+    reader.readDiaryFile('./files/data.json', function(fileContent) {
+        var usersDiaryEntries = reader.readUsersEntries(fileContent, req.params.username);
+        res.json(usersDiaryEntries);
+    });  
+})
 
 app.use('/api', router);
 
