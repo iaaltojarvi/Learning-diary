@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <title>Learning Diary</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>    
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
@@ -17,14 +17,17 @@
             <h2>Learning Diary<br> Login Page</h2>
             <p>Login from here to access your Learning Diary.</p>
         </div>
-    </div>
+        <div>
+            <footer class="login-footer-text">Copyright Inari, Mari, Jukka and Ville (Academy) 2019</footer>
+        </div>
+        </div>
     <div class="main">
         <div class="col-md-6 col-sm-12">
             <div class="login-form">
             <form action="/login" method="post">
                 <div class="form-group">
                 <label>User Name</label>
-                <input type="text" class="form-control" placeholder="User Name">
+                <input type="text" class="form-control" name="username" placeholder="User Name">
                 </div>
                 <!-- <div class="form-group">
                 <label>Password</label>
@@ -36,9 +39,5 @@
         </div>
         </div>
     </div>
-
-    <footer>Copyright Inari, Mari, Jukka and Ville (Academy) 2019</footer>
-    
-
 </body>
 </html>
