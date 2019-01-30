@@ -46,12 +46,13 @@
         <button id="btn_my" class="btn btn-info">Show my entries</button>
     </div>
     <div class="container">
-        <table class="table" id="table">
+        <!-- Hide table before clicking -->
+        <table class="table hide" id="table">
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Username</th>
-                    <th>Diary entry</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Diary entry</th>
                 </tr>
             </thead>
             <tbody>

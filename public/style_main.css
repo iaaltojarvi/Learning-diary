@@ -17,3 +17,15 @@ body, html {
 .ulkospan {
     margin: 15px;
 }
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: inline-table;
+}
+
+.table2 {
+    padding: 20px;
+}

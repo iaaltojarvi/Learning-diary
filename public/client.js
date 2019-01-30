@@ -1,12 +1,16 @@
 
 $(document).ready(function () {
     // cookie username to write hello username
-    const cookie = document.cookie.split("=");
+    // first remove problem with making %20 as space character
+    const precookie = document.cookie.split("=");
+    const cookie = precookie[1].replace("%20", " ");
     const span = $('#welcome');
-    span.text(`${cookie[1]}`);
+    span.text(`${cookie}`);
 
     $("#btn").click(function () {
-
+        var $headerTR = $(".hide");
+        $headerTR.addClass('show');
+        $headerTR.removeClass('hide');
         $.getJSON('/api/diaryEntries', function (jsondata) {
             var $entryList = $("tbody");
             $entryList.empty();
@@ -37,11 +41,11 @@ $(document).ready(function () {
 
     $("#btn_my").click(function () {
         //Vaatii tuloksen käsittelyn tauluun
-        $.getJSON('/api/diaryEntries/'+cookie[1], function (jsondata) {
+        $.getJSON('/api/diaryEntries/'+cookie, function (jsondata) {
             var $entryList = $("tbody");
             $entryList.empty();
             var journalItems = jsondata;
-           // console.log("haetaan userin entryt ", cookie[1]);
+           // console.log("haetaan userin entryt ", cookie);
             for (var index in journalItems) {
                 var writer = journalItems[index].name;
                 var id = journalItems[index].id;
@@ -68,7 +72,7 @@ $(document).ready(function () {
     $("#btn-add").click(function () {
 
         // var $writer = $("#writer").val();
-        var writer = cookie[1];
+        var writer = cookie;
         console.log("kirjoittaja", writer); //value from cookie
         var $date = $("#date").val();
         var $entry = $("#learned").val();
