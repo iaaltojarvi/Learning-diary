@@ -39,6 +39,16 @@ module.exports = {
         }
     },
 
+    editEntry: function (textId, username, editedEntry, fileContent) {
+        var usersEntries = findUsersEntries(fileContent, username);
+        for (var index in usersEntries) {
+            if (usersEntries[index].textID == textId) {
+                usersEntries[index] = editedEntry;
+            }
+            return usersEntries;
+        }
+    },
+
     /*Saves new diary entry to the data.json file
         - params is the req.body
         - jsonContents of the data.json file are given as a parameter to the callback function

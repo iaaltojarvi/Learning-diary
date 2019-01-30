@@ -50,6 +50,12 @@ router.route('/diaryEntries/:username/:textId')
         var restEntries = reader.deleteEntry(req.params.textId, req.params.username, contentsOfJson);
         res.json(restEntries);
     })
+.put(function(req, res) {
+    reader.readDiaryFile('./files/data.json', function(contentsOfJson){
+        var usersEntries = reader.editEntry(req.params.textId, req.params.username, req.body, contentsOfJson);
+        res.json(usersEntries);
+    })
+})
 })
 
 //returns users diaryentries (an array), if nothing was found sends an empty json array
