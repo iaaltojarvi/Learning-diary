@@ -41,7 +41,16 @@ router.route('/diaryEntries')
         var newDiaryEntry = reader.saveNewEntryToJsonFile(req.body, contentsOfJson);
         res.json(newDiaryEntry);
     })
-});
+})
+
+// delete a diary entry
+router.route('/diaryEntries/:username/:textId')
+.delete(function(req, res) {
+    reader.readDiaryFile('./files/data.json', function(contentsOfJson) {
+        var restEntries = reader.deleteEntry(req.params.textId, req.params.username, contentsOfJson);
+        res.json(restEntries);
+    })
+})
 
 //returns users diaryentries (an array), if nothing was found sends an empty json array
 router.route('/diaryEntries/:username')
