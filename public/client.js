@@ -63,8 +63,19 @@ $(document).ready(function () {
 
                 $entryList.append($("<div>").addClass("panel-collapse collapse")
                 .attr("id", "collapse" +index).attr("role", "tabpanel")
-                .attr("aria-labelledby", "heading" + index).append($("<div>").addClass("panel-body").text(diaryText)));
+                .attr("aria-labelledby", "heading" + index).append($("<div>").addClass("panel-body").attr("id", "paneltext"+index)));
                 
+                var $panelcontent = $("#paneltext" +index);
+
+                $("<div>").text(date).appendTo($panelcontent);
+                $("<div>").attr("id", "content"+index).appendTo($panelcontent);
+                var $entrycontents = $("#content"+index);
+                $("<textarea>").attr("id", "area"+index).prop("readonly", true).text(diaryText).appendTo($entrycontents);
+                $("<div>").attr("id", "btns-container"+index).appendTo($entrycontents);;
+                var $bcontainer = $("#btns-container"+index);
+                $("<button>").attr("id", "del"+index).attr("value", textId).text("delete Entry").appendTo($bcontainer);
+                $("<button>").attr("id", "edit"+index).attr("value", textId).text("Edit Entry").appendTo($bcontainer);
+                $("<button>").attr("id", "save"+index).attr("value", textId).text("Save Entry").appendTo($bcontainer);
                 
             }
 
