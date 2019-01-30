@@ -17,3 +17,11 @@ body, html {
 .ulkospan {
     margin: 15px;
 }
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: inline;
+}
