@@ -47,22 +47,28 @@ module.exports = {
         }
     },
 
-    editEntry: function (textId, username, editedEntry, fileContent) {
-        console.log(textId, username, editedEntry, fileContent);
+    editEntry: function (textId, username, body, fileContent) {
+        var editedText = body.diaryItemList[0].diaryText;
+
+        console.log("teksti", editedText);
+        console.log("filecontent " + fileContent);
+        console.log("editEntryn parametrit", textId, username, editedText, fileContent);
         var usersEntries = findUsersEntries(fileContent, username);
-        console.log(usersEntries);
+        console.log("findUsersEntries tulos", usersEntries);
         for (var index in usersEntries) {
             if (usersEntries[index].textID == textId) {
-                usersEntries[index] = editedEntry;
+                console.log("entry ID löytyi : ", textId);
+                usersEntries[index].diaryText = editedText;
+                for (var index in fileContent) {
+                    if (fileContent[index].name == username) {
+                        fileContent[index].diaryItemList = usersEntries;
+                        writeToDiaryFile('./files/data.json', fileContent);
+                        return usersEntries;
+                    }
+                }
             }
         }
-        for (var index in fileContent) {
-            if (fileContent[index].name == username) {
-                fileContents[index] = usersEntries;
-                writeToDiaryFile('./files/data.json', fileContents);
-                return usersEntries;
-            }
-        }
+        
     },
 
     /*Saves new diary entry to the data.json file
