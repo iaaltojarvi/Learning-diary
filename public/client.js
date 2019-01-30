@@ -1,16 +1,17 @@
 
 $(document).ready(function () {
-    // cookie username to write hello username
-    // first remove problem with making %20 as space character
+    // Write hello username, using cookie.
+    // Remove problem of making "%20" as a space character
     const precookie = document.cookie.split("=");
-    const cookie = precookie[1].replace("%20", " ");
+    const find = "%20";
+    var re = new RegExp(find, 'g');
+    const cookie = precookie[1].replace(re, ' ');
     const span = $('#welcome');
     span.text(`${cookie}`);
 
     $("#btn").click(function () {
-        var $headerTR = $(".hide");
-        $headerTR.addClass('show');
-        $headerTR.removeClass('hide');
+        var $showTable = $("#container");
+        $showTable.toggleClass('hide');
         $.getJSON('/api/diaryEntries', function (jsondata) {
             var $entryList = $("tbody");
             $entryList.empty();
@@ -26,7 +27,6 @@ $(document).ready(function () {
                     var date = diaryEntries[textindex].date;
                     var $tr = $("<tr>");
                     $tr.appendTo($entryList);
-                    //   ($("<td>").text(date).$("<td>").text(writer).$("<td>").text(diaryText)).appendTo($tr);
                     $("<td>").text(date).appendTo($tr);
                     $("<td>").text(writer).appendTo($tr);
                     $("<td>").text(diaryText).appendTo($tr);

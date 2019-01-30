@@ -23,9 +23,5 @@ body, html {
 }
 
 .show {
-    display: inline-table;
-}
-
-.table2 {
-    padding: 20px;
+    display: inline;
 }
