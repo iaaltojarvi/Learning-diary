@@ -31,8 +31,8 @@ module.exports = {
         for (var index in usersEntries) {
             if (usersEntries[index].textID == textId) {
                 usersEntries.splice(index, 1);
-                for (var i in ) {
-
+                for (var i in fileContent) {
+                    fileContent[i].diaryItemList = usersEntries;
                 }
                 return usersEntries;
             }

@@ -44,9 +44,10 @@ router.route('/diaryEntries')
 })
 
 // delete a diary entry
+router.route('/diaryEntries/:username/:textId')
 .delete(function(req, res) {
     reader.readDiaryFile('./files/data.json', function(contentsOfJson) {
-        var restEntries = reader.deleteEntry(req.textId, req.username, contentsOfJson);
+        var restEntries = reader.deleteEntry(req.params.textId, req.params.username, contentsOfJson);
         res.json(restEntries);
     })
 })

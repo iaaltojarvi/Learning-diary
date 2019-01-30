@@ -75,6 +75,7 @@ $(document).ready(function () {
 
         var diaryEntry = { "name": writer, "id": 22, "diaryEntry": $entry, "date": $date };
         //console.dir(JSON.stringify(diaryEntry));
+       
         var settings = {
             "async": true,
             "crossDomain": true,
@@ -96,11 +97,13 @@ $(document).ready(function () {
  // deleting a message
     $("#btn_del").click(function () {
         //Vaatii tuloksen käsittelyn tauluun
+        var username;
         var textId;
+        var params ="http://localhost:3000/api/diaryEntries/"+username + "/" + textId;
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "http://localhost:3000/api/diaryEntries",
+            "url": params ,
             "method": "DELETE",
             "headers": {
                 "Content-Type": "application/json",
@@ -108,7 +111,7 @@ $(document).ready(function () {
                 "Cache-Control": "no-cache"
             },
             "processData": false,
-            "data": JSON.stringify(textId)
+           // "data": JSON.stringify(textId)
         }
 
         $.ajax(settings).done(function (response) { //$.ajax(settings) lähettää post:ina
