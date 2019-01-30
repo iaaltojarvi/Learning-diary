@@ -30,13 +30,45 @@ module.exports = {
         var usersEntries = findUsersEntries(fileContent, username);
         for (var index in usersEntries) {
             if (usersEntries[index].textID == textId) {
+                //console.log("deleteEntry textID match");
                 usersEntries.splice(index, 1);
                 for (var i in fileContent) {
-                    fileContent[i].diaryItemList = usersEntries;
+                    if (fileContent[i].name == username) {
+                        //console.log("writetoDiary name match username");
+                        fileContent[i].diaryItemList = usersEntries;
+                        writeToDiaryFile('./files/data.json', fileContent);
+                        return usersEntries;
+                    }
+                    else {
+                        //return "No more userEntries";
+                    }
                 }
-                return usersEntries;
             }
         }
+    },
+
+    editEntry: function (textId, username, body, fileContent) {
+        var editedText = body.diaryItemList[0].diaryText;
+
+        console.log("teksti", editedText);
+        console.log("filecontent " + fileContent);
+        console.log("editEntryn parametrit", textId, username, editedText, fileContent);
+        var usersEntries = findUsersEntries(fileContent, username);
+        console.log("findUsersEntries tulos", usersEntries);
+        for (var index in usersEntries) {
+            if (usersEntries[index].textID == textId) {
+                console.log("entry ID löytyi : ", textId);
+                usersEntries[index].diaryText = editedText;
+                for (var index in fileContent) {
+                    if (fileContent[index].name == username) {
+                        fileContent[index].diaryItemList = usersEntries;
+                        writeToDiaryFile('./files/data.json', fileContent);
+                        return usersEntries;
+                    }
+                }
+            }
+        }
+        
     },
 
     /*Saves new diary entry to the data.json file
@@ -100,6 +132,7 @@ function makeDiaryItemList(journalEntries, newEntry, entryDate) {
    - diaryInput value must be in json format
 */
 function writeToDiaryFile(filename, diaryInput) {
+    console.log("kirjoitusta");
     fs.writeFile(filename, JSON.stringify(diaryInput), function () {
         console.log("Saved to files");
     });
