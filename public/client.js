@@ -1,7 +1,7 @@
 
 $(document).ready(function () {
-    // Write hello username, using cookie.
-    // Remove problem of making "%20" as a space character
+    // Greet user with "hey username!" using cookie
+    // Remove problem of making "%20" as a space character(s)
     const precookie = document.cookie.split("=");
     const find = "%20";
     var re = new RegExp(find, 'g');
