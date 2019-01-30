@@ -30,22 +30,38 @@ module.exports = {
         var usersEntries = findUsersEntries(fileContent, username);
         for (var index in usersEntries) {
             if (usersEntries[index].textID == textId) {
+                //console.log("deleteEntry textID match");
                 usersEntries.splice(index, 1);
                 for (var i in fileContent) {
-                    fileContent[i].diaryItemList = usersEntries;
+                    if (fileContent[i].name == username) {
+                        //console.log("writetoDiary name match username");
+                        fileContent[i].diaryItemList = usersEntries;
+                        writeToDiaryFile('./files/data.json', fileContent);
+                        return usersEntries;
+                    }
+                    else {
+                        //return "No more userEntries";
+                    }
                 }
-                return usersEntries;
             }
         }
     },
 
     editEntry: function (textId, username, editedEntry, fileContent) {
+        console.log(textId, username, editedEntry, fileContent);
         var usersEntries = findUsersEntries(fileContent, username);
+        console.log(usersEntries);
         for (var index in usersEntries) {
             if (usersEntries[index].textID == textId) {
                 usersEntries[index] = editedEntry;
             }
-            return usersEntries;
+        }
+        for (var index in fileContent) {
+            if (fileContent[index].name == username) {
+                fileContents[index] = usersEntries;
+                writeToDiaryFile('./files/data.json', fileContents);
+                return usersEntries;
+            }
         }
     },
 
@@ -110,6 +126,7 @@ function makeDiaryItemList(journalEntries, newEntry, entryDate) {
    - diaryInput value must be in json format
 */
 function writeToDiaryFile(filename, diaryInput) {
+    console.log("kirjoitusta");
     fs.writeFile(filename, JSON.stringify(diaryInput), function () {
         console.log("Saved to files");
     });
