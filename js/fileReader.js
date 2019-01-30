@@ -30,11 +30,9 @@ module.exports = {
         var usersEntries = findUsersEntries(fileContent, username);
         for (var index in usersEntries) {
             if (usersEntries[index].textID == textId) {
-                //console.log("deleteEntry textID match");
                 usersEntries.splice(index, 1);
                 for (var i in fileContent) {
                     if (fileContent[i].name == username) {
-                        //console.log("writetoDiary name match username");
                         fileContent[i].diaryItemList = usersEntries;
                         writeToDiaryFile('./files/data.json', fileContent);
                         return usersEntries;
@@ -49,15 +47,9 @@ module.exports = {
 
     editEntry: function (textId, username, body, fileContent) {
         var editedText = body.diaryItemList[0].diaryText;
-
-        console.log("teksti", editedText);
-        console.log("filecontent " + fileContent);
-        console.log("editEntryn parametrit", textId, username, editedText, fileContent);
         var usersEntries = findUsersEntries(fileContent, username);
-        console.log("findUsersEntries tulos", usersEntries);
         for (var index in usersEntries) {
             if (usersEntries[index].textID == textId) {
-                console.log("entry ID löytyi : ", textId);
                 usersEntries[index].diaryText = editedText;
                 for (var index in fileContent) {
                     if (fileContent[index].name == username) {
@@ -84,7 +76,6 @@ module.exports = {
 
         var d = new Date(); //current time
         var entryId = d.getMilliseconds();
-        // console.log(entryId);
         var entryDate = params.date;
         var writerFound = false;
 

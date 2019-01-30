@@ -54,12 +54,7 @@ router.route('/diaryEntries/:username/:textId')
 
     .put(function (req, res) {
         reader.readDiaryFile('./files/data.json', function (contentsOfJson) {
-//            console.log("kontentti" + contentsOfJson);
-            //var editedText = req.body.diaryText; //tarkasta
-            //console.log("muokattu teksti ", editedText);
-            console.dir(req.body);
             var usersEntries = reader.editEntry(req.params.textId, req.params.username, req.body, contentsOfJson);
-//           console.log("users" + usersEntries);
             res.json(usersEntries);
         })
     })
