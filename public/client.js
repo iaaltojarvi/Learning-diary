@@ -9,19 +9,67 @@ $(document).ready(function () {
     const span = $('#welcome');
     span.text(`${cookie}`);
 
-    $("#btn").click(function () {
-        var $showTable = $("#container");
-        $showTable.toggleClass('hide');
+     // Sort unclicked
+   let $clickedSortName = false;
+   let $clickedSortDate = false;
+
+   // SORT BY DATE
+   $("#sortByDate").click(function() {
+    $.getJSON('/api/diaryEntries', function (jsondata) {
+        // Toggle between clicked: true and false
+        $clickedSortDate = !$clickedSortDate;
+        var $entryList = $("tbody");
+        $entryList.empty();
+        var journalItems = jsondata;
+
+        for (var index in journalItems) {
+            var writer = journalItems[index].name;
+            var id = journalItems[index].id;
+            var diaryEntries = journalItems[index].diaryItemList;
+
+            // Sort diaryentries by date
+
+            diaryEntries = diaryEntries.sort(function (first, second) {
+                if (first.date > second.date) {
+                    return ($clickedSortDate ? -1 : 1);
+                } if (second.date > first.date) {
+                    return ($clickedSortDate ? 1 : -1);
+                }
+           });
+
+           // WRITE
+            for (var textindex in diaryEntries) {
+                var diaryText = diaryEntries[textindex].diaryText;
+                var date = diaryEntries[textindex].date;
+                var $tr = $("<tr>");
+                $tr.appendTo($entryList);
+                $("<td>").text(date).appendTo($tr);
+                $("<td>").text(writer).appendTo($tr);
+                $("<td>").text(diaryText).appendTo($tr);
+            }
+        }
+   });
+});
+
+    // SORT BY NAME
+    $("#sortByName").click(function() {
         $.getJSON('/api/diaryEntries', function (jsondata) {
+            // Sort toggle between clicked: true and false
+            $clickedSortName = !$clickedSortName;
+            var journalItems = jsondata.sort(function (first, second) {
+                if (first.name > second.name) {
+                    return ($clickedSortName ? -1 : 1);
+                } if (second.name > first.name) {
+                    return ($clickedSortName ? 1 : -1);
+                }
+            })
+            // WRITE
             var $entryList = $("tbody");
             $entryList.empty();
-            var journalItems = jsondata;
-            console.log("jounnalItems pituus ", journalItems.length);
             for (var index in journalItems) {
                 var writer = journalItems[index].name;
                 var id = journalItems[index].id;
                 var diaryEntries = journalItems[index].diaryItemList;
-                console.log(diaryEntries.length);
                 for (var textindex in diaryEntries) {
                     var diaryText = diaryEntries[textindex].diaryText;
                     var date = diaryEntries[textindex].date;
@@ -32,11 +80,56 @@ $(document).ready(function () {
                     $("<td>").text(diaryText).appendTo($tr);
 
                 }
-
             }
-
         })
+    });
 
+    // Write entries for sorts
+    function writeEntries() {
+        $.getJSON('/api/diaryEntries', function (jsondata) {
+            var $entryList = $("tbody");
+            $entryList.empty();
+            var journalItems = jsondata;
+            for (var index in journalItems) {
+                var writer = journalItems[index].name;
+                var id = journalItems[index].id;
+                var diaryEntries = journalItems[index].diaryItemList;
+                for (var textindex in diaryEntries) {
+                    var diaryText = diaryEntries[textindex].diaryText;
+                    var date = diaryEntries[textindex].date;
+                    var $tr = $("<tr>");
+                    $tr.appendTo($entryList);
+                    $("<td>").text(date).appendTo($tr);
+                    $("<td>").text(writer).appendTo($tr);
+                    $("<td>").text(diaryText).appendTo($tr);
+                }
+            }
+        })
+    }
+
+    // Show all entries
+    $("#btn").click(function () {
+        var $showTable = $("#container");
+        $showTable.toggleClass('hide');
+        $.getJSON('/api/diaryEntries', function (jsondata) {
+            var $entryList = $("tbody");
+            $entryList.empty();
+            var journalItems = jsondata;
+            for (var index in journalItems) {
+                var writer = journalItems[index].name;
+                var id = journalItems[index].id;
+                var diaryEntries = journalItems[index].diaryItemList;
+                for (var textindex in diaryEntries) {
+                    var diaryText = diaryEntries[textindex].diaryText;
+                    var date = diaryEntries[textindex].date;
+                    var $tr = $("<tr>");
+                    $tr.appendTo($entryList);
+                    $("<td>").text(date).appendTo($tr);
+                    $("<td>").text(writer).appendTo($tr);
+                    $("<td>").text(diaryText).appendTo($tr);
+                }
+            }
+        })
     });
 
     $("#btn_my").click(function () {
@@ -60,9 +153,7 @@ $(document).ready(function () {
                     $("<td>").text(date).appendTo($tr);
                     $("<td>").text(writer).appendTo($tr);
                     $("<td>").text(diaryText).appendTo($tr);
-
                 }
-
             }
 
         })
@@ -70,7 +161,6 @@ $(document).ready(function () {
     });
 
     $("#btn-add").click(function () {
-
         // var $writer = $("#writer").val();
         var writer = cookie;
         console.log("kirjoittaja", writer); //value from cookie
@@ -97,5 +187,4 @@ $(document).ready(function () {
             console.log("postin vastaus", response);
         });
     })
-
 });
