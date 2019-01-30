@@ -17,7 +17,39 @@ $(document).ready(function () {
    var $entryList = $("tbody");
    var $showTable = $("#container");
 
-   // SORT BY DATE
+    // Create list. Sorted by name.
+    function createNameSorted() {
+        $.getJSON('/api/diaryEntries', function (jsondata) {
+            // Sort toggle between clicked: true and false
+            $clickedSortName = !$clickedSortName;
+            var journalItems = jsondata.sort(function (first, second) {
+                if (first.name > second.name) {
+                    return ($clickedSortName ? 1 : -1);
+                } if (second.name > first.name) {
+                    return ($clickedSortName ? -1 : 1);
+                }
+            })
+            // WRITE
+            $entryList.empty();
+            for (var index in journalItems) {
+                var writer = journalItems[index].name;
+                var id = journalItems[index].id;
+                var diaryEntries = journalItems[index].diaryItemList;
+                for (var textindex in diaryEntries) {
+                    var diaryText = diaryEntries[textindex].diaryText;
+                    var date = diaryEntries[textindex].date;
+                    var $tr = $("<tr>");
+                    $tr.appendTo($entryList);
+                    $("<td>").text(date).appendTo($tr);
+                    $("<td>").text(writer).appendTo($tr);
+                    $("<td>").text(diaryText).appendTo($tr);
+
+                }
+            }
+        })
+    };
+
+    // SORT BY DATE
    $("#sortByDate").click(function() {
     $.getJSON('/api/diaryEntries', function (jsondata) {
         // Toggle between clicked: true and false
@@ -54,65 +86,11 @@ $(document).ready(function () {
    });
 });
 
-    // SORT BY NAME
-    $("#sortByName").click(function() {
-        $.getJSON('/api/diaryEntries', function (jsondata) {
-            // Sort toggle between clicked: true and false
-            $clickedSortName = !$clickedSortName;
-            var journalItems = jsondata.sort(function (first, second) {
-                if (first.name > second.name) {
-                    return ($clickedSortName ? -1 : 1);
-                } if (second.name > first.name) {
-                    return ($clickedSortName ? 1 : -1);
-                }
-            })
-            // WRITE
-            $entryList.empty();
-            for (var index in journalItems) {
-                var writer = journalItems[index].name;
-                var id = journalItems[index].id;
-                var diaryEntries = journalItems[index].diaryItemList;
-                for (var textindex in diaryEntries) {
-                    var diaryText = diaryEntries[textindex].diaryText;
-                    var date = diaryEntries[textindex].date;
-                    var $tr = $("<tr>");
-                    $tr.appendTo($entryList);
-                    $("<td>").text(date).appendTo($tr);
-                    $("<td>").text(writer).appendTo($tr);
-                    $("<td>").text(diaryText).appendTo($tr);
-
-                }
-            }
-        })
-    });
-
-    // Show all entries
-    $("#btn").click(function () {
-        $showTable.toggleClass('hide');
-        $.getJSON('/api/diaryEntries', function (jsondata) {
-            $entryList.empty();
-            var journalItems = jsondata;
-            for (var index in journalItems) {
-                var writer = journalItems[index].name;
-                var id = journalItems[index].id;
-                var diaryEntries = journalItems[index].diaryItemList;
-                for (var textindex in diaryEntries) {
-                    var diaryText = diaryEntries[textindex].diaryText;
-                    var date = diaryEntries[textindex].date;
-                    var $tr = $("<tr>");
-                    $tr.appendTo($entryList);
-                    $("<td>").text(date).appendTo($tr);
-                    $("<td>").text(writer).appendTo($tr);
-                    $("<td>").text(diaryText).appendTo($tr);
-                }
-            }
-        })
-    });
-
     $("#btn_my").click(function () {
         $.getJSON('/api/diaryEntries/' + cookie, function (jsondata) {
-            var $MyentryList = $("#accordion");
+            var $MyEntryList = $("#accordion");
             $entryList.empty();
+            $MyEntryList.empty();
             $showTable.addClass('hide');
             var journalItems = jsondata;
             console.log("users entries data: ", journalItems);
@@ -126,7 +104,7 @@ $(document).ready(function () {
                 //console.log("tulostetaan rivia", index);
                 
                 //entry message preview
-                $MyentryList.append($("<div>").addClass("panel panel-default").append($("<div>")
+                $MyEntryList.append($("<div>").addClass("panel panel-default").append($("<div>")
                 .addClass("panel-heading").attr("id", "heading" +index).attr("role", "tab").append($("<h4>")
                 .addClass("panel-title").append($("<div>")
                 .addClass("collapsed").attr("role", "button")
@@ -134,16 +112,26 @@ $(document).ready(function () {
                 .attr("aria-expanded", "false").attr("aria-controls", "collapse"+index)
                 .text(date + "      " + diaryText)))));
 
-                $MyentryList.append($("<div>").addClass("panel-collapse collapse")
+                $MyEntryList.append($("<div>").addClass("panel-collapse collapse")
                 .attr("id", "collapse" +index).attr("role", "tabpanel")
-                .attr("aria-labelledby", "heading" + index).append($("<div>").addClass("panel-body").text(diaryText)));
+                .attr("aria-labelledby", "heading" + index).append($("<div>").addClass("panel-body").attr("id", "paneltext"+index)));
+                
+                var $panelcontent = $("#paneltext" +index);
+
+                $("<div>").text(date).appendTo($panelcontent);
+                $("<div>").attr("id", "content"+index).appendTo($panelcontent);
+                var $entrycontents = $("#content"+index);
+                $("<textarea>").attr("id", "area"+index).prop("readonly", true).text(diaryText).appendTo($entrycontents);
+                $("<div>").attr("id", "btns-container"+index).appendTo($entrycontents);;
+                var $bcontainer = $("#btns-container"+index);
+                $("<button>").attr("id", "del"+index).attr("value", textId).text("delete Entry").appendTo($bcontainer);
+                $("<button>").attr("id", "edit"+index).attr("value", textId).text("Edit Entry").appendTo($bcontainer);
+                $("<button>").attr("id", "save"+index).attr("value", textId).text("Save Entry").appendTo($bcontainer);
             }
-
         })
-
     });
 
-    $("#btn-add").click(function () {
+    function addToList() {
         // var $writer = $("#writer").val();
         var writer = cookie;
         console.log("kirjoittaja", writer); //value from cookie
@@ -170,7 +158,23 @@ $(document).ready(function () {
         $.ajax(settings).done(function (response) { //$.ajax(settings) lähettää post:ina
             console.log("postin vastaus", response);
         });
-    })
+    };
+
+    // Add to my diary
+    $("#btn-add").click(function () {
+        addToList();
+    });
+
+    // Sort by name
+    $("#sortByName").click(function() {
+        createNameSorted();
+    });
+
+    // Show all entries
+    $("#btn").click(function () {
+        $showTable.toggleClass('hide');
+        createNameSorted();
+    });
 
  // deleting a message
     $("#btn_del").click(function () {
