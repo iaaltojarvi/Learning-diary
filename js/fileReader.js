@@ -5,6 +5,7 @@ module.exports = {
 
     /*Reads all the diary entries from the data.json file
         - contents of the data.json file are given as a parameter to the callback function
+        @author Mari
     */
     readDiaryFile: function (fileName, callback) {
         fs.readFile(fileName, function (err, data) {
@@ -25,6 +26,7 @@ module.exports = {
         - username as a parameter
         - calls a private function findUsersEntries
         - retuns an array of users diary entries
+        @author Mari
     */
     readUsersEntries: function (fileContent, username) {
         var usersEntries = findUsersEntries(fileContent, username);
@@ -38,6 +40,7 @@ module.exports = {
         - diary entry ID,
         - calls a private function findUsersEntries to get all the users diary entries
         - retuns an array of users diary entries that are left
+        @author Inari, Mari, Jukka
     */
     deleteEntry: function (textId, username, fileContent) {
         var usersEntries = findUsersEntries(fileContent, username);
@@ -57,6 +60,7 @@ module.exports = {
 
     /*
         - parameter body is { "name": username, "diaryEntry": $entry, "date": $date, "subject": $subject }
+        @author Jukka, Inari
     */
     editEntry: function (textId, username, body, fileContent) {
         var editedText = body.diaryEntry;
@@ -79,6 +83,7 @@ module.exports = {
         - params is the req.body ( { "name": writer, "diaryEntry": $entry, "date": $date, "subject": $subject } )
         - jsonContents of the data.json file are given as a parameter to the callback function
         - returns the new diary entry object
+        @author Mari
     */
     saveNewEntryToJsonFile: function (params, jsonContents) {
         var writer = params.name;
@@ -117,6 +122,7 @@ module.exports = {
    - newEntry is a new diary entry
    - entryDate is date
    - returns an array of all the user diary entries, new diary entry is included
+   @author Mari
 */
 function makeDiaryItemList(journalEntries, newEntry, entryDate, subject) {
     
@@ -135,6 +141,7 @@ function makeDiaryItemList(journalEntries, newEntry, entryDate, subject) {
 /* Writes data to data.json file. 
    - private function, access is possibe only from fileReader.js
    - diaryInput value must be in json format
+   @author Mari
 */
 function writeToDiaryFile(filename, diaryInput) {
     console.log("kirjoitusta");
@@ -148,6 +155,7 @@ function writeToDiaryFile(filename, diaryInput) {
    - jsonContents is the data from data.json
    - returns an array of users diary entries
    - if user was not found return an empty array
+   @author Mari
 */
 function findUsersEntries(jsonContents, user) {
     var writerFound = false;

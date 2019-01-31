@@ -19,7 +19,11 @@ $(document).ready(function () {
    var $usersEntries = $("#accordion");
    $usersEntries.addClass('hide');
 
-    //prints all entries
+    
+    /*
+        -prints all entries
+        @author Mari
+    */
    function printAllEntries(index, diaryText, date, subject, $entryList, writer ) {
                 $entryList.append($("<div>").addClass("panel panel-default").append($("<div>")
                 .addClass("panel-heading").attr("id", "allentryheading" +index).attr("role", "tab").append($("<h4>")
@@ -35,9 +39,6 @@ $(document).ready(function () {
                 
                 var $panelcontent = $("#allpaneltext" +index);
 
-               // $("<div>").attr("id", "subject"+index).text(subject).appendTo($panelcontent);
-
-                //$("<div>").attr("id", "date"+index).text(date).appendTo($panelcontent);
                 $("<div>").attr("id", "allcontent"+index).appendTo($panelcontent);
                 var $entrycontents = $("#allcontent"+index);
                 $("<div>").addClass("textarea").attr("id", "area"+index).text(diaryText).appendTo($entrycontents);
@@ -45,7 +46,10 @@ $(document).ready(function () {
 
     };
 
-    // Create list. Sorted by name.
+    /*
+        - Create list Sorted by name.
+        @author Ville
+    */
     function createNameSorted() {
         $.getJSON('/api/diaryEntries', function (jsondata) {
             // Sort toggle between clicked: true and false
@@ -79,15 +83,16 @@ $(document).ready(function () {
         })
     };
     
-
-    // SORT BY DATE
+    /*
+        - Create list Sorted by date.
+        @author Ville
+    */
     $("#sortByDate").click(function() {
         $.getJSON('/api/diaryEntries', function (jsondata) {
         // Toggle between clicked: true and false
             $clickedSortDate = !$clickedSortDate;
             var $entryList = $("#allEntries");
             $entryList.empty();
-           // $usersEntries.empty();
 
             var journalItems = jsondata;
             for (var index in journalItems) {
@@ -120,8 +125,8 @@ $(document).ready(function () {
         });
     });
 
-   // $("#btn_my").click(function () {
-       function myEntriesList() {
+   
+    function myEntriesList() {
         $.getJSON('/api/diaryEntries/' + cookie, function (jsondata) {
             var $MyEntryList = $("#accordion");
             $MyEntryList.toggleClass('hide', false);
@@ -173,8 +178,10 @@ $(document).ready(function () {
         })
     };
 
+    /*
+        @author Mari
+    */
     function addToList() {
-        // var $writer = $("#writer").val();
         var writer = cookie;
         console.log("kirjoittaja", writer); //value from cookie
         var $date = $("#date").val();
