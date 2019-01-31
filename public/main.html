@@ -58,19 +58,11 @@
         <div class="container hide" id="container">
             <button type="button" id="sortByDate" class="btn btn-info">Sort by date</button>
             <button type="button" id="sortByName" class="btn btn-info">Sort by name</button><br>
-            <!-- Hide table before clicking -->
-            <table class="table" id="table">
-                <thead id="thead">
-                    <tr>
-                        <th scope="col">Date</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Diary entry</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+            <hr>
+            <div class="panel-group" id="allEntries" role="tablist" aria-multiselectable="true">
+            </div>
         </div>
+        
         <!-- My diary entries -->
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
         </div>

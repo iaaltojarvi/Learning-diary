@@ -12,20 +12,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 app.use(cookieParser());
 
-// Login
+// Login pagen POST and on sucessfull login redirect to main page
 app.post('/login', function (req, res) {
     console.log(req.body.username);
     res.cookie('username', req.body.username);
     res.redirect('/main.html');
 })
 
-//Logout
+//Logout from the main page and clearing the username cookie
 app.post('/logout', function (req, res) {
     res.clearCookie('username');
     res.redirect('/');
 });
 
-//get all the diary entries
+//GET all the diary entries from the data.json on "kovalevyn nurkalla" :D and return the file content.
 router.route('/diaryEntries')
     .get(function (req, res) {
         reader.readDiaryFile('./files/data.json', function (fileContent) {
@@ -33,7 +33,7 @@ router.route('/diaryEntries')
         });
     })
 
-    //add a diary entry to data.json, returns new entry
+    //POST a new diary entry to data.json. Reads the data.json from HD and callback returns the file content. A function adds the new diary entry to the content and writes the content to the data.json. Res.json returns the new diary entry.
     .post(function (req, res) {
         reader.readDiaryFile('./files/data.json', function (contentsOfJson) {
             var newDiaryEntry = reader.saveNewEntryToJsonFile(req.body, contentsOfJson);
@@ -41,8 +41,7 @@ router.route('/diaryEntries')
         })
     })
 
-
-// delete a diary entry
+// DELETE a diary entry. Reads the data.json from HD and callback returns the file content. A function deletes the diary entry and writes the content to the data.json.
 router.route('/diaryEntries/:username/:textId')
     .delete(function (req, res) {
         reader.readDiaryFile('./files/data.json', function (contentsOfJson) {
@@ -51,23 +50,17 @@ router.route('/diaryEntries/:username/:textId')
         })
     })
 
+// PUT to update a diary entry. Reads the data.json from HD and callback returns the file content. A function updates the diary entry in the content and writes the content to the data.json.. Res.json sends user's all entries.
     .put(function (req, res) {
         reader.readDiaryFile('./files/data.json', function (contentsOfJson) {
-//            console.log("kontentti" + contentsOfJson);
-            //var editedText = req.body.diaryText; //tarkasta
-            //console.log("muokattu teksti ", editedText);
-            console.log("Alla on putin req.body");
-            console.dir( req.body);
             var usersEntries = reader.editEntry(req.params.textId, req.params.username, req.body, contentsOfJson);
             res.json(usersEntries);
         })
     })
 
-//returns users diaryentries (an array), if nothing was found sends an empty json array
+//GET to return user's diaryentries (an array), if nothing was found sends an empty json array. Reads the data.json from the HD and callback returns the file content. A function returns user's entries and res.json sends user's all entries.
 router.route('/diaryEntries/:username')
     .get(function (req, res) {
-        // console.log("Haetaan userin entryt, serverissä");
-        // console.log("user parametri", req.params.username);
         reader.readDiaryFile('./files/data.json', function (fileContent) {
             var usersDiaryEntries = reader.readUsersEntries(fileContent, req.params.username);
             res.json(usersDiaryEntries);
