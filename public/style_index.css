@@ -71,10 +71,11 @@ body {
 }
 
 .login-footer-text{
-    border: 1px red solid;
-    margin-top: 90%;
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
     padding: 10px;
-    color: #fff;
+    color: black;
     font-weight: 0;
     font-size: 0.7em;
 }
