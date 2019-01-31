@@ -12,10 +12,6 @@ body, html {
     height: 100%;
 }
 
-#btn {
-    margin: 15px;
-}
-
 .ulkospan {
     margin: 15px;
     font-size: 18px;
@@ -86,7 +82,7 @@ td {
     padding: 10px;
     border-radius: 10px;
     width: 40%;
-    position: relative;
+    margin: auto;
     border: 1px solid lightslategrey;
     border-bottom: 3px solid lightslategrey;
     border-top: 3px solid lightslategrey;
@@ -124,6 +120,25 @@ button:hover {
 }
 
 .sortButtonit {
-    float: right;
+    text-align: center;
+}
+.listOfEntries{
+    text-align: center;
+}
+.panel-group{
+    width: 52.5%;
+    margin:auto;
+}
+
+a:link {
+    color: white;
+    text-decoration: none !important;
+}
+a:visited {
+    color: white !important;
+    text-decoration: none !important;
+}
+.textarea {
+    color: white;
 }
 
