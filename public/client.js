@@ -14,13 +14,41 @@ $(document).ready(function () {
    let $clickedSortDate = false;
 
    // Containers
-   var $entryList = $("tbody");
+   //var $entryList = $("#allEntries");
    var $showTable = $("#container");
+   var $usersEntries = $("#accordion");
+
+    //prints all entries
+   function printAllEntries(index, diaryText, date, subject, $entryList, writer ) {
+                $entryList.append($("<div>").addClass("panel panel-default").append($("<div>")
+                .addClass("panel-heading").attr("id", "allentryheading" +index).attr("role", "tab").append($("<h4>")
+                .addClass("panel-title").append($("<div>")
+                .addClass("collapsed").attr("role", "button")
+                .attr("data-toggle", "collapse").attr("data-parent", "#accordion").attr("href", "#allcollapse" +index)
+                .attr("aria-expanded", "false").attr("aria-controls", "collapse"+index)
+                .text(date + " " +writer + " " + subject)))));
+
+                $entryList.append($("<div>").addClass("panel-collapse collapse")
+                .attr("id", "allcollapse" +index).attr("role", "tabpanel")
+                .attr("aria-labelledby", "heading" + index).append($("<div>").addClass("panel-body").attr("id", "paneltext"+index)));
+                
+                var $panelcontent = $("#paneltext" +index);
+
+                $("<div>").attr("id", "subject"+index).text(subject).appendTo($panelcontent);
+
+                $("<div>").attr("id", "date"+index).text(date).appendTo($panelcontent);
+                $("<div>").attr("id", "content"+index).appendTo($panelcontent);
+                var $entrycontents = $("#content"+index);
+                $("<textarea>").attr("id", "area"+index).prop("readonly", true).text(diaryText).appendTo($entrycontents);
+                $("<div>").attr("id", "btns-container"+index).appendTo($entrycontents);
+
+    };
 
     // Create list. Sorted by name.
     function createNameSorted() {
         $.getJSON('/api/diaryEntries', function (jsondata) {
             // Sort toggle between clicked: true and false
+            //$usersEntries.empty();
             $clickedSortName = !$clickedSortName;
             var journalItems = jsondata.sort(function (first, second) {
                 if (first.name > second.name) {
@@ -30,31 +58,35 @@ $(document).ready(function () {
                 }
             })
             // WRITE
+            var $entryList = $("#allEntries");
             $entryList.empty();
             for (var index in journalItems) {
                 var writer = journalItems[index].name;
                 var id = journalItems[index].id;
                 var diaryEntries = journalItems[index].diaryItemList;
                 for (var textindex in diaryEntries) {
+                    
                     var diaryText = diaryEntries[textindex].diaryText;
                     var date = diaryEntries[textindex].date;
-                    var $tr = $("<tr>");
-                    $tr.appendTo($entryList);
-                    $("<td>").text(date).appendTo($tr);
-                    $("<td>").text(writer).appendTo($tr);
-                    $("<td>").text(diaryText).appendTo($tr);
+                    var subject = diaryEntries[textindex].subject;
+                    
+                    
+                    printAllEntries(index, diaryText, date, subject, $entryList, writer);
 
                 }
             }
         })
     };
+    
 
     // SORT BY DATE
     $("#sortByDate").click(function() {
         $.getJSON('/api/diaryEntries', function (jsondata) {
         // Toggle between clicked: true and false
             $clickedSortDate = !$clickedSortDate;
+            var $entryList = $("#allEntries");
             $entryList.empty();
+           // $usersEntries.empty();
 
             var journalItems = jsondata;
             for (var index in journalItems) {
@@ -70,17 +102,18 @@ $(document).ready(function () {
                     } if (second.date > first.date) {
                         return ($clickedSortDate ? 1 : -1);
                     }
-            });
+                });
 
             // WRITE
                 for (var textindex in diaryEntries) {
+                    ;  
                     var diaryText = diaryEntries[textindex].diaryText;
                     var date = diaryEntries[textindex].date;
-                    var $tr = $("<tr>");
-                    $tr.appendTo($entryList);
-                    $("<td>").text(date).appendTo($tr);
-                    $("<td>").text(writer).appendTo($tr);
-                    $("<td>").text(diaryText).appendTo($tr);
+                    var subject = diaryEntries[textindex].subject;
+                    var $entryList = $("#allEntries");
+                    printAllEntries(index, diaryText, date, subject, $entryList, writer);
+                    
+                    
                 }
             }
         });
@@ -89,6 +122,7 @@ $(document).ready(function () {
     $("#btn_my").click(function () {
         $.getJSON('/api/diaryEntries/' + cookie, function (jsondata) {
             var $MyEntryList = $("#accordion");
+            var $entryList = $("#allEntries");
             $entryList.empty();
             $MyEntryList.empty();
             $showTable.addClass('hide');
@@ -144,7 +178,7 @@ $(document).ready(function () {
         var $entry = $("#learned").val();
         var $subject = $("#subject").val();
 
-        var diaryEntry = { "name": writer, "id": 22, "diaryEntry": $entry, "date": $date, "subject": $subject };
+        var diaryEntry = { "name": writer, "diaryEntry": $entry, "date": $date, "subject": $subject };
         //console.dir(JSON.stringify(diaryEntry));
        
         var settings = {
@@ -179,6 +213,7 @@ $(document).ready(function () {
     // Show all entries
     $("#btn").click(function () {
         $showTable.toggleClass('hide');
+        $usersEntries.addClass('hide');
         createNameSorted();
     });
 
@@ -242,7 +277,7 @@ $(document).ready(function () {
         var $date = $("#date"+idnumber).text();
         var $subject = $("#subject"+idnumber).text();
         console.log("Entryn päivämäärä ", $date);
-        var diaryEntry = { "name": username, "id": 22, "diaryEntry": $entry, "date": $date, "subject": $subject };
+        var diaryEntry = { "name": username, "diaryEntry": $entry, "date": $date, "subject": $subject };
         console.log("klikatun buttonin arvo ", textId);
         
        var params ="http://localhost:3000/api/diaryEntries/"+ username + "/" + textId;
