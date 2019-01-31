@@ -107,8 +107,8 @@ td {
     to { width: 100% }
   }
 
-#area > textarea {
-    color: black;
+textarea {
+    color: black !important;
 }
 
 input:focus, textarea:focus {
