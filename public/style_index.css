@@ -1,9 +1,14 @@
 body {
     font-family: "Lato", sans-serif;
+        height: 100%;
+        /* The image used */
+        background-image: url("/branko-stancevic-417172-unsplash.jpg") !important;
+      
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
 }
-
-
-
 .main-head{
     height: 150px;
     background: #FFF;
@@ -16,7 +21,6 @@ body {
     overflow-x: hidden;
     padding-top: 20px;
 }
-
 
 .main {
     padding: 0px 10px;
@@ -78,6 +82,15 @@ body {
 }
 
 .btn-black{
-    background-color: #000 !important;
-    color: #fff;
+    background-color: #fff;
+    color: #000;
 }
+
+.outlook {
+    background-color: rgb(39, 38, 38);
+    color: #FFF;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid lightslategrey;
+}
+
