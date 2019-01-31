@@ -174,6 +174,16 @@ $(document).ready(function () {
     };
 
     function addToList() {
+
+        // If empty fields -> do nothing!
+        const dateField = $("#date").val();
+        const learnedField = $("#learned").val();
+        const subjectField = $("#subject").val();
+
+        if(dateField === "" || learnedField === "" || subjectField === "") {
+            return;
+        }
+
         // var $writer = $("#writer").val();
         var writer = cookie;
         console.log("kirjoittaja", writer); //value from cookie
