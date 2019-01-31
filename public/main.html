@@ -11,31 +11,30 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
     <script src="client.js"></script>
-    <!--Eikös tämän script ole täällä?-->
 </head>
 
 <body>
+    <div class="background"> <!-- Background image alkaa -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
-
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">Learning-diary</a>
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Make diary entry</a></li>
-                <li><a href="#">My entries</a></li>
             </ul>
             <form method="POST" action="/logout">
-                <button type="submit" id="logout" class="btn btn-primary navbar-btn">Log out</button>
+                <button type="submit" id="logout" class="btn btn-info navbar-btn">Log out</button>
             </form>
         </div>
     </nav>
     <br><br><br><br><br>
     <div class="outlook">
-        <div class="ulkospan">Hey <span id="welcome"></span>!</div><br>
+        <div class="typewriter">
+            <div class="ulkospan" style="padding-left:60px">Hey <span id="welcome"></span>!</div>
+        </div>
+        <br>
         <div class="form-group">
             <label for="date">Date</label><br>
             <input type="date" class="form-control" id="date"><br>
@@ -49,17 +48,20 @@
             <textarea class="form-control" rows="7" id="learned" placeholder="Write what you learned that day"></textarea><br>
             <div class="listOfEntries">
                 <button type="button" id="btn-add" class="btn btn-info">Add to my diary</button>
-                <button id="btn" class="btn btn-info">Show all entries</button>
+                <button id="btn" class="btn btn-info"><a href="#thead">Show all entries</a></button>
                 <button id="btn_my" class="btn btn-info">Show my entries</button>
             </div>
+            </div>
         </div>
+    </div> <!-- Background image loppuu -->
         <!-- Show all entries. Hide by default -->
         <div class="container hide" id="container">
+        <div class="sortButtonit">
             <button type="button" id="sortByDate" class="btn btn-info">Sort by date</button>
-            <button type="button" id="sortByName" class="btn btn-info">Sort by name</button><br>
-            <hr>
-            <div class="panel-group" id="allEntries" role="tablist" aria-multiselectable="true">
-            </div>
+            <button type="button" id="sortByName" class="btn btn-info" style="padding-left: 15px">Sort by name</button><br>
+        </div>
+        <div class="panel-group" id="allEntries" role="tablist" aria-multiselectable="true">
+        </div>
         </div>
         
         <!-- My diary entries -->
