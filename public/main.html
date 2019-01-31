@@ -11,23 +11,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
     <script src="client.js"></script>
-    <!--Eikös tämän script ole täällä?-->
 </head>
 
 <body>
     <div class="background"> <!-- Background image alkaa -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
-
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">Learning-diary</a>
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Make diary entry</a></li>
-                <li><a href="#">My entries</a></li>
             </ul>
             <form method="POST" action="/logout">
                 <button type="submit" id="logout" class="btn btn-primary navbar-btn">Log out</button>
@@ -36,7 +31,10 @@
     </nav>
     <br><br><br><br><br>
     <div class="outlook">
-        <div class="ulkospan">Hey <span id="welcome"></span>!</div><br>
+        <div class="typewriter">
+            <div class="ulkospan" style="padding-left:60px">Hey <span id="welcome"></span>!</div>
+        </div>
+        <br>
         <div class="form-group">
             <label for="date">Date</label><br>
             <input type="date" class="form-control" id="date"><br>

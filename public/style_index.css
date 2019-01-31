@@ -1,8 +1,8 @@
+
 body, html {
         height: 100%;
         /* The image used */
-        background-image: url("/branko-stancevic-417172-unsplash.jpg") !important;
-      
+    background-image: url("/branko-stancevic-417172-unsplash.jpg") !important;
         /* Center and scale the image nicely */
         background-position: center;
         background-repeat: no-repeat;
