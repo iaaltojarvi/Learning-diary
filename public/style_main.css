@@ -123,3 +123,7 @@ button:hover {
     box-shadow: 0 0 20px #82A645 !important;
 }
 
+.sortButtonit {
+    float: right;
+}
+
