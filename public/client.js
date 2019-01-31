@@ -120,7 +120,8 @@ $(document).ready(function () {
         });
     });
 
-    $("#btn_my").click(function () {
+   // $("#btn_my").click(function () {
+       function myEntriesList() {
         $.getJSON('/api/diaryEntries/' + cookie, function (jsondata) {
             var $MyEntryList = $("#accordion");
             $MyEntryList.toggleClass('hide', false);
@@ -170,7 +171,7 @@ $(document).ready(function () {
                 $("#save"+index).css("display", "none");
             }
         })
-    });
+    };
 
     function addToList() {
         // var $writer = $("#writer").val();
@@ -211,6 +212,10 @@ $(document).ready(function () {
         addToList();
     });
 
+    $("#btn_my").click(function () {
+        myEntriesList();
+    });
+
     // Sort by name
     $("#sortByName").click(function() {
         createNameSorted();
@@ -247,6 +252,7 @@ $(document).ready(function () {
         // "data": JSON.stringify(textId)
         }
 
+        
         $.ajax(settings).done(function (response) { //$.ajax(settings) lähettää post:ina
             console.log("postin vastaus", response);
 
