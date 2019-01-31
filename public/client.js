@@ -9,7 +9,7 @@ $(document).ready(function () {
     const span = $('#welcome');
     span.text(`${cookie}`);
 
-     // Sort unclicked
+     // Toggle between clicked - unclicked. Using this with Sort. 
    let $clickedSortName = false;
    let $clickedSortDate = false;
 
@@ -19,7 +19,7 @@ $(document).ready(function () {
    var $usersEntries = $("#accordion");
    $usersEntries.addClass('hide');
 
-    //prints all entries
+    // Prints all entries
    function printAllEntries(index, diaryText, date, subject, $entryList, writer ) {
                 $entryList.append($("<div>").addClass("panel panel-default").append($("<div>")
                 .addClass("panel-heading").attr("id", "allentryheading" +index).attr("role", "tab").append($("<h4>")
@@ -48,8 +48,8 @@ $(document).ready(function () {
     // Create list. Sorted by name.
     function createNameSorted() {
         $.getJSON('/api/diaryEntries', function (jsondata) {
-            // Sort toggle between clicked: true and false
             //$usersEntries.empty();
+            // Sort toggle between clicked: true and false
             $clickedSortName = !$clickedSortName;
             var journalItems = jsondata.sort(function (first, second) {
                 if (first.name > second.name) {
@@ -83,10 +83,10 @@ $(document).ready(function () {
     // SORT BY DATE
     $("#sortByDate").click(function() {
         $.getJSON('/api/diaryEntries', function (jsondata) {
-        // Toggle between clicked: true and false
+        // Toggle between clicked - unclicked
             $clickedSortDate = !$clickedSortDate;
             var $entryList = $("#allEntries");
-        // empty previous list to create it again
+        // Empty previous list to create it again
             $entryList.empty();
            /* Structure of JSON:
 [{"name":"Alice","diaryItemList":[{"date":"2019-01-01","subject":"GIT Day","diaryText":"Today I learned GIT","textID":253},{"date":"2019-01-16","subject":"Another Day in Paradise","diaryText":"Everything is going GREAT!!!! ","textID":793},{"date":"2019-02-03","subject":"Something new ","diaryText":"Always learning new things...","textID":679}]},{"name":"John","diaryItemList":[{"date":"2019-01-02","subject":"Wednesday","diaryText":"What a Day!! oh Boy!!","textID":844},{"date":"2019-01-03","subject":"Thursday","diaryText":"I'm learning.. sooo much. I can feel it!!","textID":979}]}
@@ -180,17 +180,16 @@ $(document).ready(function () {
         })
     };
 
-    function addToList() {
 
-        // If empty fields -> do nothing!
+    // ADD TO LIST
+    function addToList() {
         const dateField = $("#date").val();
         const learnedField = $("#learned").val();
         const subjectField = $("#subject").val();
-
+        // If empty fields --> do nothing!
         if(dateField === "" || learnedField === "" || subjectField === "") {
             return;
-        }
-
+        };
         // var $writer = $("#writer").val();
         var writer = cookie;
         console.log("kirjoittaja", writer); //value from cookie
@@ -224,11 +223,14 @@ $(document).ready(function () {
         });
     };
 
-    // Add to my diary
+    // CLICK HANDLERS:
+
+    // Add entry
     $("#btn-add").click(function () {
         addToList();
     });
 
+    // Show my entries
     $("#btn_my").click(function () {
         myEntriesList();
     });
@@ -245,7 +247,7 @@ $(document).ready(function () {
         createNameSorted();
     });
 
-    // deleting a message
+    // Deleting a message
     $(".panel-group").on('click','.btn-del', function(){
 
         //Vaatii tuloksen käsittelyn tauluun
