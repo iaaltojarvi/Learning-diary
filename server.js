@@ -43,6 +43,7 @@ router.route('/diaryEntries')
         })
     })
 
+
 // delete a diary entry
 router.route('/diaryEntries/:username/:textId')
     .delete(function (req, res) {
@@ -57,7 +58,8 @@ router.route('/diaryEntries/:username/:textId')
 //            console.log("kontentti" + contentsOfJson);
             //var editedText = req.body.diaryText; //tarkasta
             //console.log("muokattu teksti ", editedText);
-            console.dir(req.body);
+            console.log("Alla on putin req.body");
+            console.dir( req.body);
             var usersEntries = reader.editEntry(req.params.textId, req.params.username, req.body, contentsOfJson);
 //           console.log("users" + usersEntries);
             res.json(usersEntries);
