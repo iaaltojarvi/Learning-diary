@@ -121,3 +121,6 @@ button:hover {
     from { width: 0% }
     to { width: 100% }
   }
+  .col-md-6, .col-sm-12 {
+      margin-top: -15% !important;
+  }  
