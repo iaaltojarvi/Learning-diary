@@ -100,6 +100,7 @@ $(document).ready(function () {
                 var textId = journalItems[index].textID;
                 var diaryText = journalItems[index].diaryText;
                 var date = journalItems[index].date;
+                var subject = journalItems[index].subject;
                 
                 //console.log("tulostetaan rivia", index);
                 
@@ -110,13 +111,15 @@ $(document).ready(function () {
                 .addClass("collapsed").attr("role", "button")
                 .attr("data-toggle", "collapse").attr("data-parent", "#accordion").attr("href", "#collapse" +index)
                 .attr("aria-expanded", "false").attr("aria-controls", "collapse"+index)
-                .text(date + "      " + diaryText)))));
+                .text(date + "      " + subject)))));
 
                 $MyEntryList.append($("<div>").addClass("panel-collapse collapse")
                 .attr("id", "collapse" +index).attr("role", "tabpanel")
                 .attr("aria-labelledby", "heading" + index).append($("<div>").addClass("panel-body").attr("id", "paneltext"+index)));
                 
                 var $panelcontent = $("#paneltext" +index);
+
+                $("<div>").attr("id", "subject"+index).text(subject).appendTo($panelcontent);
 
                 $("<div>").attr("id", "date"+index).text(date).appendTo($panelcontent);
                 $("<div>").attr("id", "content"+index).appendTo($panelcontent);
@@ -139,8 +142,9 @@ $(document).ready(function () {
         console.log("kirjoittaja", writer); //value from cookie
         var $date = $("#date").val();
         var $entry = $("#learned").val();
+        var $subject = $("#subject").val();
 
-        var diaryEntry = { "name": writer, "id": 22, "diaryEntry": $entry, "date": $date };
+        var diaryEntry = { "name": writer, "id": 22, "diaryEntry": $entry, "date": $date, "subject": $subject };
         //console.dir(JSON.stringify(diaryEntry));
        
         var settings = {
@@ -236,8 +240,9 @@ $(document).ready(function () {
         console.log("muokattu teksti", $entry);
         var textId = $(this).val();
         var $date = $("#date"+idnumber).text();
+        var $subject = $("#subject"+idnumber).text();
         console.log("Entryn päivämäärä ", $date);
-        var diaryEntry = { "name": username, "id": 22, "diaryEntry": $entry, "date": $date };
+        var diaryEntry = { "name": username, "id": 22, "diaryEntry": $entry, "date": $date, "subject": $subject };
         console.log("klikatun buttonin arvo ", textId);
         
        var params ="http://localhost:3000/api/diaryEntries/"+ username + "/" + textId;
