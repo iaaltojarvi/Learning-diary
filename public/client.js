@@ -161,7 +161,7 @@ $(document).ready(function () {
                 $("<div>").attr("id", "date"+index).text(date).appendTo($panelcontent);
                 $("<div>").attr("id", "content"+index).appendTo($panelcontent);
                 var $entrycontents = $("#content"+index);
-                $("<textarea>").attr("id", "area"+index).prop("readonly", true).text(diaryText).appendTo($entrycontents);
+                $("<textarea>").attr("cols", "50").attr("rows", "7").attr("id", "area"+index).prop("readonly", true).text(diaryText).appendTo($entrycontents);
                 $("<div>").attr("id", "btns-container"+index).appendTo($entrycontents);
                 var $bcontainer = $("#btns-container"+index);
                 $("<button>").addClass("btn-del").attr("id", "del"+index).attr("value", textId).text("delete Entry").appendTo($bcontainer);
