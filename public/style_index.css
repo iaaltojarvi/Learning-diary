@@ -1,5 +1,4 @@
 body, html {
-    font-family: "Lato", sans-serif;
         height: 100%;
         /* The image used */
         background-image: url("/branko-stancevic-417172-unsplash.jpg") !important;
@@ -8,6 +7,8 @@ body, html {
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
+        color: #FFF;
+        font-family: 'Courier New', Courier, monospace !important;
 }
 .main-head{
     height: 150px;
@@ -94,11 +95,6 @@ body, html {
     padding: 10px;
     border-radius: 10px;
     border: 1px solid lightslategrey;
-}
-
-body, html {
-    color: #FFF;
-    font-family: 'Courier New', Courier, monospace !important;
 }
 
 input:focus {
