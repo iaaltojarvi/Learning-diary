@@ -53,8 +53,6 @@ router.route('/diaryEntries/:username/:textId')
 // PUT to update a diary entry. Reads the data.json from HD and callback returns the file content. A function updates the diary entry in the content and writes the content to the data.json.. Res.json sends user's all entries.
     .put(function (req, res) {
         reader.readDiaryFile('./files/data.json', function (contentsOfJson) {
-            console.log("Alla on putin req.body");
-            console.dir( req.body);
             var usersEntries = reader.editEntry(req.params.textId, req.params.username, req.body, contentsOfJson);
             res.json(usersEntries);
         })

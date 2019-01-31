@@ -1,5 +1,4 @@
 const fs = require('fs');
-var currentTextId = 100;
 
 /*public filereader class*/
 module.exports = {
@@ -15,7 +14,7 @@ module.exports = {
             }
             catch (err) {
                 console.log("File is empty");
-                var diaryText = JSON.parse("{}");
+                var diaryText = JSON.parse("[]");
                 callback(diaryText);
             }
         });
@@ -44,34 +43,26 @@ module.exports = {
         var usersEntries = findUsersEntries(fileContent, username);
         for (var index in usersEntries) {
             if (usersEntries[index].textID == textId) {
-                //console.log("deleteEntry textID match");
                 usersEntries.splice(index, 1); //deletes an entry from index
                 for (var i in fileContent) {
                     if (fileContent[i].name == username) { //correct user was found from data.json
-                        //console.log("writetoDiary name match username");
                         fileContent[i].diaryItemList = usersEntries; //users diary entries are updated
                         writeToDiaryFile('./files/data.json', fileContent);
                         return usersEntries;
-                    }
-                    else {
-                        //return "No more userEntries";
                     }
                 }
             }
         }
     },
 
+    /*
+        - parameter body is { "name": username, "diaryEntry": $entry, "date": $date, "subject": $subject }
+    */
     editEntry: function (textId, username, body, fileContent) {
-      //  var editedText = body.diaryItemList[0].diaryText;   //tämä ei toimi
         var editedText = body.diaryEntry;
-        //console.log("muokattu teksti " )
-        console.log("muokattu teksti", editedText);
-        console.log("filecontent " + fileContent);
-        console.log("editEntryn parametrit", textId, username, editedText, fileContent);
         var usersEntries = findUsersEntries(fileContent, username);
         for (var index in usersEntries) {
             if (usersEntries[index].textID == textId) { //edited diary entry found 
-                console.log("entry ID löytyi : ", textId);
                 usersEntries[index].diaryText = editedText; //diary entry text is updated
                 for (var index in fileContent) {
                     if (fileContent[index].name == username) { 
@@ -81,21 +72,18 @@ module.exports = {
                     }
                 }
             }
-        }
-        
+        } 
     },
 
     /*Saves new diary entry to the data.json file
-        - params is the req.body
+        - params is the req.body ( { "name": writer, "diaryEntry": $entry, "date": $date, "subject": $subject } )
         - jsonContents of the data.json file are given as a parameter to the callback function
         - returns the new diary entry object
     */
     saveNewEntryToJsonFile: function (params, jsonContents) {
         var writer = params.name;
-        var wid = params.id;
         var entry = params.diaryEntry; //new diary entry text
-        // currentTextId += 1;
-        //var entryId = currentTextId;
+        var subject = params.subject;
 
         var d = new Date(); //current time
         var entryId = d.getMilliseconds();
@@ -107,14 +95,14 @@ module.exports = {
             if (jsonContents[indeksi].name == writer) { //if writer has already submitted diary entries
                 writerFound = true;
                 var olderJournalEntries = jsonContents[indeksi].diaryItemList;
-                jsonContents[indeksi].diaryItemList = makeDiaryItemList(olderJournalEntries, entry, entryDate);
+                jsonContents[indeksi].diaryItemList = makeDiaryItemList(olderJournalEntries, entry, entryDate, subject);
                 writeToDiaryFile('./files/data.json', jsonContents);
             }
         }
 
         if (!writerFound) { //if diary entry is users first entry
-            var newEntryText = [{ "date": entryDate, "diaryText": entry, "textID": entryId }];
-            var diaryEntryObject = { "name": writer, "id": wid, "diaryItemList": newEntryText }
+            var newEntryText = [{ "date": entryDate, "subject": subject, "diaryText": entry, "textID": entryId }];
+            var diaryEntryObject = { "name": writer, "diaryItemList": newEntryText }
             jsonContents.push(diaryEntryObject);
             writeToDiaryFile('./files/data.json', jsonContents);
         }
@@ -130,13 +118,14 @@ module.exports = {
    - entryDate is date
    - returns an array of all the user diary entries, new diary entry is included
 */
-function makeDiaryItemList(journalEntries, newEntry, entryDate) {
+function makeDiaryItemList(journalEntries, newEntry, entryDate, subject) {
     
     var d = new Date(); //current time
     var entryId = d.getMilliseconds();
     var entryTexts = journalEntries;
+    var subject = subject;
 
-    var newEntryText = { "date": entryDate, "diaryText": newEntry, "textID": entryId };
+    var newEntryText = { "date": entryDate, "subject": subject, "diaryText": newEntry, "textID": entryId };
     entryTexts.push(newEntryText); //new entry is pushed to an array of old entries
 
     return entryTexts;
