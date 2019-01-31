@@ -1,4 +1,4 @@
-body {
+body, html {
     font-family: "Lato", sans-serif;
         height: 100%;
         /* The image used */
@@ -11,8 +11,7 @@ body {
 }
 .main-head{
     height: 150px;
-    background: #FFF;
-   
+   /* background: #FFF; */
 }
 
 .sidenav {
@@ -97,3 +96,19 @@ body {
     border: 1px solid lightslategrey;
 }
 
+body, html {
+    color: #FFF;
+    font-family: 'Courier New', Courier, monospace !important;
+}
+
+input:focus {
+    outline: 1px solid blueviolet !important;
+    border: 2px solid #82A645 !important;
+    box-shadow: 0 0 40px #82A645 !important;
+}
+
+button:hover {
+    outline: 1px solid blueviolet !important;
+    border: 2px solid #82A645 !important;
+    box-shadow: 0 0 20px #82A645 !important;
+}
