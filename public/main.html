@@ -25,7 +25,7 @@
                 <li class="active"><a href="#">Home</a></li>
             </ul>
             <form method="POST" action="/logout">
-                <button type="submit" id="logout" class="btn btn-info navbar-btn">Log out</button>
+                <button type="submit" id="logout" class="btn btn-success navbar-btn">Log out</button>
             </form>
         </div>
     </nav>
@@ -47,19 +47,18 @@
             <label for="learned">Learned</label><br>
             <textarea class="form-control" rows="7" id="learned" placeholder="Write what you learned that day"></textarea><br>
             <div class="listOfEntries">
-                <button type="button" id="btn-add" class="btn btn-info">Add to my diary</button>
-                <button id="btn" class="btn btn-info"><a href="#thead">Show all entries</a></button>
-                <button id="btn_my" class="btn btn-info">Show my entries</button>
-            </div>
+                <button id="btn-add" class="btn btn-success">Add entry</button><button id="btn_my" class="btn btn-success" style="padding-left: 15px"> <a href="#thead"></a>My entries</button><button id="btn" style="padding-left: 15px" class="btn btn-success"><a href="#thead">All entries</a></button>
             </div>
         </div>
     </div> <!-- Background image loppuu -->
-        <!-- Show all entries. Hide by default -->
+    <br>
+    <!-- Show all entries. Hide by default -->
         <div class="container hide" id="container">
         <div class="sortButtonit">
-            <button type="button" id="sortByDate" class="btn btn-info">Sort by date</button>
-            <button type="button" id="sortByName" class="btn btn-info" style="padding-left: 15px">Sort by name</button><br>
+            <button type="button" id="sortByDate" class="btn btn-success">Sort by date</button>
+            <button type="button" id="sortByName" class="btn btn-success" style="padding-left: 15px">Sort by name</button><br>
         </div>
+        <br>
         <div class="panel-group" id="allEntries" role="tablist" aria-multiselectable="true">
         </div>
         </div>
