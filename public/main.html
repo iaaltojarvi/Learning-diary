@@ -15,6 +15,7 @@
 </head>
 
 <body>
+    <div class="background"> <!-- Background image alkaa -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -47,18 +48,19 @@
             <textarea class="form-control" rows="7" id="learned" placeholder="Write what you learned that day"></textarea><br>
             <div class="listOfEntries">
                 <button type="button" id="btn-add" class="btn btn-info">Add to my diary</button>
-                <button id="btn" class="btn btn-info">Show all entries</button>
+                <button id="btn" class="btn btn-info"><a href="#thead">Show all entries</a></button>
                 <button id="btn_my" class="btn btn-info">Show my entries</button>
             </div>
+            </div>
         </div>
+    </div> <!-- Background image loppuu -->
         <!-- Show all entries. Hide by default -->
         <div class="container hide" id="container">
             <button type="button" id="sortByDate" class="btn btn-info">Sort by date</button>
             <button type="button" id="sortByName" class="btn btn-info">Sort by name</button><br>
-            <hr>
             <!-- Hide table before clicking -->
             <table class="table" id="table">
-                <thead>
+                <thead id="thead">
                     <tr>
                         <th scope="col">Date</th>
                         <th scope="col">Username</th>
