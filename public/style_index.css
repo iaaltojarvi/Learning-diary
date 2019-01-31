@@ -1,13 +1,12 @@
 body {
-    font-family: "Lato", sans-serif;
-        height: 100%;
+    height: 100%;
         /* The image used */
-        background-image: url("/branko-stancevic-417172-unsplash.jpg") !important;
-      
+    background-image: url("/branko-stancevic-417172-unsplash.jpg") !important;
         /* Center and scale the image nicely */
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: monospace;
 }
 .main-head{
     height: 150px;
