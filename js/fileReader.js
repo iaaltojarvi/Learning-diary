@@ -40,7 +40,7 @@ module.exports = {
         - diary entry ID,
         - calls a private function findUsersEntries to get all the users diary entries
         - retuns an array of users diary entries that are left
-        @author Inari, Mari, Jukka
+        @author Inari, Jukka, Mari
     */
     deleteEntry: function (textId, username, fileContent) {
         var usersEntries = findUsersEntries(fileContent, username);
