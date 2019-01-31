@@ -122,6 +122,7 @@ $(document).ready(function () {
     $("#btn_my").click(function () {
         $.getJSON('/api/diaryEntries/' + cookie, function (jsondata) {
             var $MyEntryList = $("#accordion");
+            $MyEntryList.toggleClass('hide');
             var $entryList = $("#allEntries");
             $entryList.empty();
             $MyEntryList.empty();
