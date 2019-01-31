@@ -84,17 +84,14 @@ body, html {
     font-size: 0.7em;
 }
 
-.btn-black{
-    background-color: #fff;
-    color: #000;
-}
-
 .outlook {
     background-color: rgb(39, 38, 38);
     color: #FFF;
-    padding: 35px 10px;
+    padding: 25px 15px;
     border-radius: 10px;
     border: 1px solid lightslategrey;
+    border-top: 2px solid lightslategrey;
+    border-bottom: 2px solid lightslategrey;
 }
 
 input:focus {
@@ -105,11 +102,11 @@ input:focus {
 
 button:hover {
     outline: 1px solid blueviolet !important;
-    border: 2px solid #82A645 !important;
-    box-shadow: 0 0 20px #82A645 !important;
+    border: 1px solid #82A645 !important;
+    box-shadow: 0 0 25px #82A645 !important;
 }
 
-.typewriter > div > h2, .typewriter > div > h2 > p {
+.typewriter > div > h2, .typewriter > div > h2, h3 {
     overflow: hidden; /* Ensures the content is not revealed until the animation */
     white-space: nowrap; /* Keeps the content on a single line */
     margin: 0 auto; /* Gives that scrolling effect as the typing happens */
@@ -124,3 +121,6 @@ button:hover {
     from { width: 0% }
     to { width: 100% }
   }
+  .col-md-6, .col-sm-12 {
+      margin-top: -15% !important;
+  }  
