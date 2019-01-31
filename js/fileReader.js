@@ -86,7 +86,7 @@ module.exports = {
         var subject = params.subject;
 
         var d = new Date(); //current time
-        var entryId = d.getMilliseconds();
+        var entryId = d.getTime(); //current time in milliseconds
         var entryDate = params.date;
         var writerFound = false;
 
@@ -121,7 +121,8 @@ module.exports = {
 function makeDiaryItemList(journalEntries, newEntry, entryDate, subject) {
     
     var d = new Date(); //current time
-    var entryId = d.getMilliseconds();
+    var entryId = d.getTime(); // current time in milliseconds
+    console.log(entryId);
     var entryTexts = journalEntries;
     var subject = subject;
 
