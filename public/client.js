@@ -50,41 +50,41 @@ $(document).ready(function () {
     };
 
     // SORT BY DATE
-   $("#sortByDate").click(function() {
-    $.getJSON('/api/diaryEntries', function (jsondata) {
+    $("#sortByDate").click(function() {
+        $.getJSON('/api/diaryEntries', function (jsondata) {
         // Toggle between clicked: true and false
-        $clickedSortDate = !$clickedSortDate;
-        $entryList.empty();
+            $clickedSortDate = !$clickedSortDate;
+            $entryList.empty();
 
-        var journalItems = jsondata;
-        for (var index in journalItems) {
-            var writer = journalItems[index].name;
-            var id = journalItems[index].id;
-            var diaryEntries = journalItems[index].diaryItemList;
+            var journalItems = jsondata;
+            for (var index in journalItems) {
+                var writer = journalItems[index].name;
+                var id = journalItems[index].id;
+                var diaryEntries = journalItems[index].diaryItemList;
 
-            // Sort diaryentries by date
+                // Sort diaryentries by date
 
-            diaryEntries = diaryEntries.sort(function (first, second) {
-                if (first.date > second.date) {
-                    return ($clickedSortDate ? -1 : 1);
-                } if (second.date > first.date) {
-                    return ($clickedSortDate ? 1 : -1);
+                diaryEntries = diaryEntries.sort(function (first, second) {
+                    if (first.date > second.date) {
+                        return ($clickedSortDate ? -1 : 1);
+                    } if (second.date > first.date) {
+                        return ($clickedSortDate ? 1 : -1);
+                    }
+            });
+
+            // WRITE
+                for (var textindex in diaryEntries) {
+                    var diaryText = diaryEntries[textindex].diaryText;
+                    var date = diaryEntries[textindex].date;
+                    var $tr = $("<tr>");
+                    $tr.appendTo($entryList);
+                    $("<td>").text(date).appendTo($tr);
+                    $("<td>").text(writer).appendTo($tr);
+                    $("<td>").text(diaryText).appendTo($tr);
                 }
-           });
-
-           // WRITE
-            for (var textindex in diaryEntries) {
-                var diaryText = diaryEntries[textindex].diaryText;
-                var date = diaryEntries[textindex].date;
-                var $tr = $("<tr>");
-                $tr.appendTo($entryList);
-                $("<td>").text(date).appendTo($tr);
-                $("<td>").text(writer).appendTo($tr);
-                $("<td>").text(diaryText).appendTo($tr);
             }
-        }
-   });
-});
+        });
+    });
 
     $("#btn_my").click(function () {
         $.getJSON('/api/diaryEntries/' + cookie, function (jsondata) {
@@ -118,15 +118,17 @@ $(document).ready(function () {
                 
                 var $panelcontent = $("#paneltext" +index);
 
-                $("<div>").text(date).appendTo($panelcontent);
+                $("<div>").attr("id", "date"+index).text(date).appendTo($panelcontent);
                 $("<div>").attr("id", "content"+index).appendTo($panelcontent);
                 var $entrycontents = $("#content"+index);
                 $("<textarea>").attr("id", "area"+index).prop("readonly", true).text(diaryText).appendTo($entrycontents);
-                $("<div>").attr("id", "btns-container"+index).appendTo($entrycontents);;
+                $("<div>").attr("id", "btns-container"+index).appendTo($entrycontents);
                 var $bcontainer = $("#btns-container"+index);
-                $("<button>").attr("id", "del"+index).attr("value", textId).text("delete Entry").appendTo($bcontainer);
-                $("<button>").attr("id", "edit"+index).attr("value", textId).text("Edit Entry").appendTo($bcontainer);
-                $("<button>").attr("id", "save"+index).attr("value", textId).text("Save Entry").appendTo($bcontainer);
+                $("<button>").addClass("btn-del").attr("id", "del"+index).attr("value", textId).text("delete Entry").appendTo($bcontainer);
+                $("<button>").addClass("btn-edit").attr("id", "edit"+index).attr("value", textId).text("Edit Entry").appendTo($bcontainer);
+                $("<button>").addClass("btn-save").attr("id", "save"+index).attr("style", "display: none").attr("value", textId).text("Save Entry").appendTo($bcontainer);
+                
+                $("#save"+index).css("display", "none");
             }
         })
     });
@@ -176,11 +178,15 @@ $(document).ready(function () {
         createNameSorted();
     });
 
- // deleting a message
-    $("#btn_del").click(function () {
+    // deleting a message
+    $(".panel-group").on('click','.btn-del', function(){
+
         //Vaatii tuloksen käsittelyn tauluun
-        var username;
-        var textId;
+        var username = cookie;
+        console.log("username", cookie);
+        var textId = $(this).val();
+        console.log("klikatun buttonin arvo ", textId);
+        
         var params ="http://localhost:3000/api/diaryEntries/"+ username + "/" + textId;
         var settings = {
             "async": true,
@@ -193,12 +199,68 @@ $(document).ready(function () {
                 "Cache-Control": "no-cache"
             },
             "processData": false,
-           // "data": JSON.stringify(textId)
+        // "data": JSON.stringify(textId)
+        }
+
+        $.ajax(settings).done(function (response) { //$.ajax(settings) lähettää post:ina
+            console.log("postin vastaus", response);
+
+        });
+ 
+    });
+
+    $(".panel-group").on('click','.btn-edit', function(){
+        console.log("klikkasit edittiä");
+
+        var idd = this.id; // get pressed buttons id which is edit(+index number, edit1, edit2 etc..), we need id number
+        var idnumber = idd.slice(4); //remove 4 chars from the beginning of the string, rest is the index
+        var $saveButton = $("#save" +idnumber); //save buttons id
+        $saveButton.css("display","inline"); //makes save button visible
+
+        $("#area"+idnumber).prop("readonly", false);
+
+        
+        $(this).css("display", "none");   //hide edit button, we don't need it anymore
+ 
+    });
+
+    $(".panel-group").on('click','.btn-save', function(){
+
+        //Vaatii tuloksen käsittelyn tauluun
+        var username = cookie;
+        console.log("username", cookie);
+        var idd = this.id;
+        var idnumber = idd.slice(4);
+        console.log("id", idnumber); 
+        var $entry = $("#area"+idnumber).val();
+        console.log("muokattu teksti", $entry);
+        var textId = $(this).val();
+        var $date = $("#date"+idnumber).text();
+        console.log("Entryn päivämäärä ", $date);
+        var diaryEntry = { "name": username, "id": 22, "diaryEntry": $entry, "date": $date };
+        console.log("klikatun buttonin arvo ", textId);
+        
+       var params ="http://localhost:3000/api/diaryEntries/"+ username + "/" + textId;
+       
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": params,
+            "method": "PUT",
+            "headers": {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Cache-Control": "no-cache"
+            },
+            "processData": false,
+            "data": JSON.stringify(diaryEntry)
         }
 
         $.ajax(settings).done(function (response) { //$.ajax(settings) lähettää post:ina
             console.log("postin vastaus", response);
         });
-            
+ 
     });
+
+  
 });
