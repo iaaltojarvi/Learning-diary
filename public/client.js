@@ -17,6 +17,7 @@ $(document).ready(function () {
    //var $entryList = $("#allEntries");
    var $showTable = $("#container");
    var $usersEntries = $("#accordion");
+   $usersEntries.addClass('hide');
 
     //prints all entries
    function printAllEntries(index, diaryText, date, subject, $entryList, writer ) {
@@ -24,22 +25,22 @@ $(document).ready(function () {
                 .addClass("panel-heading").attr("id", "allentryheading" +index).attr("role", "tab").append($("<h4>")
                 .addClass("panel-title").append($("<div>")
                 .addClass("collapsed").attr("role", "button")
-                .attr("data-toggle", "collapse").attr("data-parent", "#accordion").attr("href", "#allcollapse" +index)
+                .attr("data-toggle", "collapse").attr("data-parent", "#allEntries").attr("href", "#allcollapse" +index)
                 .attr("aria-expanded", "false").attr("aria-controls", "collapse"+index)
-                .text(date + " " +writer + " " + subject)))));
+                .text(date + " " +writer + ":    " + subject)))));
 
                 $entryList.append($("<div>").addClass("panel-collapse collapse")
                 .attr("id", "allcollapse" +index).attr("role", "tabpanel")
-                .attr("aria-labelledby", "heading" + index).append($("<div>").addClass("panel-body").attr("id", "paneltext"+index)));
+                .attr("aria-labelledby", "heading" + index).append($("<div>").addClass("panel-body").attr("id", "allpaneltext"+index)));
                 
-                var $panelcontent = $("#paneltext" +index);
+                var $panelcontent = $("#allpaneltext" +index);
 
-                $("<div>").attr("id", "subject"+index).text(subject).appendTo($panelcontent);
+               // $("<div>").attr("id", "subject"+index).text(subject).appendTo($panelcontent);
 
-                $("<div>").attr("id", "date"+index).text(date).appendTo($panelcontent);
-                $("<div>").attr("id", "content"+index).appendTo($panelcontent);
-                var $entrycontents = $("#content"+index);
-                $("<textarea>").attr("id", "area"+index).prop("readonly", true).text(diaryText).appendTo($entrycontents);
+                //$("<div>").attr("id", "date"+index).text(date).appendTo($panelcontent);
+                $("<div>").attr("id", "allcontent"+index).appendTo($panelcontent);
+                var $entrycontents = $("#allcontent"+index);
+                $("<div>").addClass("textarea").attr("id", "area"+index).text(diaryText).appendTo($entrycontents);
                 $("<div>").attr("id", "btns-container"+index).appendTo($entrycontents);
 
     };
@@ -70,8 +71,8 @@ $(document).ready(function () {
                     var date = diaryEntries[textindex].date;
                     var subject = diaryEntries[textindex].subject;
                     
-                    
-                    printAllEntries(index, diaryText, date, subject, $entryList, writer);
+                    var i = ""+index+textindex;
+                    printAllEntries(i, diaryText, date, subject, $entryList, writer);
 
                 }
             }
@@ -119,10 +120,11 @@ $(document).ready(function () {
         });
     });
 
-    $("#btn_my").click(function () {
+   // $("#btn_my").click(function () {
+       function myEntriesList() {
         $.getJSON('/api/diaryEntries/' + cookie, function (jsondata) {
             var $MyEntryList = $("#accordion");
-            $MyEntryList.toggleClass('hide');
+            $MyEntryList.toggleClass('hide', false);
             var $entryList = $("#allEntries");
             $entryList.empty();
             $MyEntryList.empty();
@@ -169,7 +171,7 @@ $(document).ready(function () {
                 $("#save"+index).css("display", "none");
             }
         })
-    });
+    };
 
     function addToList() {
         // var $writer = $("#writer").val();
@@ -196,6 +198,10 @@ $(document).ready(function () {
             "data": JSON.stringify(diaryEntry)
         }
 
+        $("#date").val("");
+        $("#learned").val("");
+        $("#subject").val("");
+         
         $.ajax(settings).done(function (response) { //$.ajax(settings) lähettää post:ina
             console.log("postin vastaus", response);
         });
@@ -206,6 +212,10 @@ $(document).ready(function () {
         addToList();
     });
 
+    $("#btn_my").click(function () {
+        myEntriesList();
+    });
+
     // Sort by name
     $("#sortByName").click(function() {
         createNameSorted();
@@ -214,7 +224,7 @@ $(document).ready(function () {
     // Show all entries
     $("#btn").click(function () {
         $showTable.toggleClass('hide');
-        $usersEntries.addClass('hide');
+        $usersEntries.toggleClass('hide', true);
         createNameSorted();
     });
 
@@ -242,6 +252,7 @@ $(document).ready(function () {
         // "data": JSON.stringify(textId)
         }
 
+        
         $.ajax(settings).done(function (response) { //$.ajax(settings) lähettää post:ina
             console.log("postin vastaus", response);
 
