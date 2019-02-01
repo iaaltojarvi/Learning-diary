@@ -2,19 +2,25 @@
         -Main CSS
         @author Inari, Ville
 */
+
+/* bootstrap style to input section */
 .form-group {
     width: 80%;
     font-size: medium;
     margin: auto;
 }
+
+/* position of the logout button */
 #logout {
     float: right;
 }
 
+/* background image full-sized */
 body, html {
     height: 100%;
 }
 
+/* position of the welcome _username_ text */
 .ulkospan {
     margin: 15px;
     font-size: 18px;
@@ -24,6 +30,7 @@ body, html {
     font-size: 18px;
 }
 
+/* list is hidden when not selected (show all entries/show my entries) */
 .hide {
     display: none;
 }
@@ -61,6 +68,7 @@ td {
     font-family: 'Courier New', Courier, monospace;
 }
 
+/* styling of the list */
 #accordion > div {
     background-color:  rgb(39, 38, 38) !important;
     color: #FFF !important;
@@ -73,12 +81,14 @@ td {
     font-family: 'Courier New', Courier, monospace !important;
 }
 
+/* styling of the buttons in the list items */
 .btn-del, .btn-edit, .btn-save {
     background-color:  rgb(39, 38, 38) !important;
     color: #FFF !important;
     font-family: 'Courier New', Courier, monospace !important;
 }
 
+/* styling of the input section */
 .outlook {
     background-color: rgb(39, 38, 38);
     color: #FFF;
@@ -90,6 +100,8 @@ td {
     border-bottom: 3px solid lightslategrey;
     border-top: 3px solid lightslategrey;
 }
+
+/* animation in the login section */
 .typewriter > div, .typewriter > div > span {
     overflow: hidden; /* Ensures the content is not revealed until the animation */
     white-space: nowrap; /* Keeps the content on a single line */
@@ -110,37 +122,49 @@ textarea {
     color: black !important;
 }
 
+/* input glows when selected */
 input:focus, textarea:focus {
     outline: 1px solid blueviolet !important;
     border: 2px solid #82A645 !important;
     box-shadow: 0 0 25px #82A645 !important;
 }
 
+/* button glows when hovered over */
 button:hover {
     outline: 1px solid blueviolet !important;
     border: 2px solid #82A645 !important;
     box-shadow: 0 0 20px #82A645 !important;
 }
 
+/* position of the sort buttons */
 .sortButtonit {
     text-align: center;
 }
+
+/* position of the list entries */
 .listOfEntries{
     text-align: center;
 }
+
+/* size and position of the list */
 .panel-group{
     width: 52.5%;
     margin:auto;
 }
 
+/* text in link buttons is the same as in buttons without link */
 a:link {
     color: white;
     text-decoration: none !important;
 }
+
+/* color and styling of the link buttons do not change when link is visited */
 a:visited {
     color: white !important;
     text-decoration: none !important;
 }
+
+/* text color in list */
 .textarea {
     color: white;
 }
