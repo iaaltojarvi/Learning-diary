@@ -15,10 +15,7 @@ body, html {
     font-family: 'Courier New', Courier, monospace !important;
 }
 
-.main-head{
-    height: 150px;
-}
-
+/* Left column (black) of the page */
 .sidenav {
     height: 100%;
     background-color: #000;
@@ -27,10 +24,10 @@ body, html {
     padding-top: 20px;
 }
 
-.main {
-    padding: 0px 10px;
-}
-
+/* Responsive web
+    -3 different screen widths
+    -2 different screen heights
+ */
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
 }
@@ -46,10 +43,6 @@ body, html {
 }
 
 @media screen and (min-width: 768px){
-    .main{
-        margin-left: 40%; 
-    }
-
     .sidenav{
         width: 40%;
         position: fixed;
@@ -67,17 +60,21 @@ body, html {
     }
 }
 
-
+/* Left side (black column) of the page */
 .login-main-text{
     margin-top: 20%;
     padding: 60px;
     color: #fff;
 }
 
+/* Left side (black column) of the page */
 .login-main-text h2{
     font-weight: 300;
 }
 
+/* Footer text, right bottom corner
+    -Keeps the same position while scaling the window
+*/
 .login-footer-text{
     position: absolute;
     bottom: 20px;
