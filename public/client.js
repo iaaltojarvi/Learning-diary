@@ -9,7 +9,7 @@ $(document).ready(function () {
     const span = $('#welcome');
     span.text(`${cookie}`);
 
-     // Sort unclicked
+     // Toggle between clicked - unclicked. Using this with Sort. 
    let $clickedSortName = false;
    let $clickedSortDate = false;
 
@@ -19,7 +19,11 @@ $(document).ready(function () {
    var $usersEntries = $("#accordion");
    $usersEntries.addClass('hide');
 
-    //prints all entries
+    
+    /*
+        -prints all entries
+        @author Mari
+    */
    function printAllEntries(index, diaryText, date, subject, $entryList, writer ) {
                 $entryList.append($("<div>").addClass("panel panel-default").append($("<div>")
                 .addClass("panel-heading").attr("id", "allentryheading" +index).attr("role", "tab").append($("<h4>")
@@ -35,9 +39,6 @@ $(document).ready(function () {
                 
                 var $panelcontent = $("#allpaneltext" +index);
 
-               // $("<div>").attr("id", "subject"+index).text(subject).appendTo($panelcontent);
-
-                //$("<div>").attr("id", "date"+index).text(date).appendTo($panelcontent);
                 $("<div>").attr("id", "allcontent"+index).appendTo($panelcontent);
                 var $entrycontents = $("#allcontent"+index);
                 $("<div>").addClass("textarea").attr("id", "area"+index).text(diaryText).appendTo($entrycontents);
@@ -45,11 +46,14 @@ $(document).ready(function () {
 
     };
 
-    // Create list. Sorted by name.
+    /*
+        - Create list Sorted by name.
+        @author Ville
+    */
     function createNameSorted() {
         $.getJSON('/api/diaryEntries', function (jsondata) {
-            // Sort toggle between clicked: true and false
             //$usersEntries.empty();
+            // Sort toggle between clicked: true and false
             $clickedSortName = !$clickedSortName;
             var journalItems = jsondata.sort(function (first, second) {
                 if (first.name > second.name) {
@@ -79,49 +83,61 @@ $(document).ready(function () {
         })
     };
     
-
-    // SORT BY DATE
+    /*
+        - Create list Sorted by date.
+        @author Ville
+    */
     $("#sortByDate").click(function() {
         $.getJSON('/api/diaryEntries', function (jsondata) {
-        // Toggle between clicked: true and false
+        // Toggle between clicked - unclicked
             $clickedSortDate = !$clickedSortDate;
             var $entryList = $("#allEntries");
+        // Empty previous list to create it again
             $entryList.empty();
-           // $usersEntries.empty();
-
+           /* Structure of JSON:
+[{"name":"Alice","diaryItemList":[{"date":"2019-01-01","subject":"GIT Day","diaryText":"Today I learned GIT","textID":253},{"date":"2019-01-16","subject":"Another Day in Paradise","diaryText":"Everything is going GREAT!!!! ","textID":793},{"date":"2019-02-03","subject":"Something new ","diaryText":"Always learning new things...","textID":679}]},{"name":"John","diaryItemList":[{"date":"2019-01-02","subject":"Wednesday","diaryText":"What a Day!! oh Boy!!","textID":844},{"date":"2019-01-03","subject":"Thursday","diaryText":"I'm learning.. sooo much. I can feel it!!","textID":979}]}
+           */
             var journalItems = jsondata;
+            let allEntriesWithAuthors = [];
             for (var index in journalItems) {
                 var writer = journalItems[index].name;
                 var id = journalItems[index].id;
                 var diaryEntries = journalItems[index].diaryItemList;
-
-                // Sort diaryentries by date
-
-                diaryEntries = diaryEntries.sort(function (first, second) {
+                // diaryEntries contains all messages of one same writer (without writers)
+                for(let i=0; i<diaryEntries.length; i++) {
+                    diaryEntries[i].writer = writer;
+                    console.log(diaryEntries[i])
+                    allEntriesWithAuthors.push(diaryEntries[i]);
+                    // allEntriesWithAuthors contains all messages with writers
+                }
+            }
+                console.log(allEntriesWithAuthors);
+                // Sort toggle between clicks
+                allEntriesWithAuthors = allEntriesWithAuthors.sort(function (first, second) {
                     if (first.date > second.date) {
                         return ($clickedSortDate ? -1 : 1);
                     } if (second.date > first.date) {
                         return ($clickedSortDate ? 1 : -1);
                     }
                 });
-
+                console.log(allEntriesWithAuthors);
             // WRITE
-                for (var textindex in diaryEntries) {
-                    ;  
-                    var diaryText = diaryEntries[textindex].diaryText;
-                    var date = diaryEntries[textindex].date;
-                    var subject = diaryEntries[textindex].subject;
+                for (let i=0; i<allEntriesWithAuthors.length; i++) {
+                    var diaryText = allEntriesWithAuthors[i].diaryText;
+                    var date = allEntriesWithAuthors[i].date;
+                    var subject = allEntriesWithAuthors[i].subject;
+                    var writer = allEntriesWithAuthors[i].writer;
                     var $entryList = $("#allEntries");
                     printAllEntries(index, diaryText, date, subject, $entryList, writer);
-                    
-                    
                 }
-            }
+            });
         });
-    });
 
-   // $("#btn_my").click(function () {
-       function myEntriesList() {
+   /*
+        -prints user entries
+        @author Mari
+    */
+    function myEntriesList() {
         $.getJSON('/api/diaryEntries/' + cookie, function (jsondata) {
             var $MyEntryList = $("#accordion");
             $MyEntryList.toggleClass('hide', false);
@@ -173,17 +189,19 @@ $(document).ready(function () {
         })
     };
 
-    function addToList() {
 
-        // If empty fields -> do nothing!
+    /*
+        -add to list
+        @author Ville, Mari
+    */
+    function addToList() {
         const dateField = $("#date").val();
         const learnedField = $("#learned").val();
         const subjectField = $("#subject").val();
-
+        // If empty fields --> do nothing!
         if(dateField === "" || learnedField === "" || subjectField === "") {
             return;
-        }
-
+        };
         // var $writer = $("#writer").val();
         var writer = cookie;
         console.log("kirjoittaja", writer); //value from cookie
@@ -217,11 +235,14 @@ $(document).ready(function () {
         });
     };
 
-    // Add to my diary
+    // CLICK HANDLERS:
+
+    // Add entry
     $("#btn-add").click(function () {
         addToList();
     });
 
+    // Show my entries
     $("#btn_my").click(function () {
         myEntriesList();
     });
@@ -238,7 +259,7 @@ $(document).ready(function () {
         createNameSorted();
     });
 
-    // deleting a message
+    // Deleting a message
     $(".panel-group").on('click','.btn-del', function(){
 
         //Vaatii tuloksen käsittelyn tauluun
