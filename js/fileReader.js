@@ -44,9 +44,9 @@ module.exports = {
     */
     deleteEntry: function (textId, username, fileContent) {
         var usersEntries = findUsersEntries(fileContent, username);
-        for (var index in usersEntries) {
-            if (usersEntries[index].textID == textId) {
-                usersEntries.splice(index, 1); //deletes an entry from index
+        for (var index in usersEntries) { //goes through the list of users entries 
+            if (usersEntries[index].textID == textId) { //searching for the correct entry 
+                usersEntries.splice(index, 1); //deletes an entry from index,
                 for (var i in fileContent) {
                     if (fileContent[i].name == username) { //correct user was found from data.json
                         fileContent[i].diaryItemList = usersEntries; //users diary entries are updated
@@ -64,9 +64,9 @@ module.exports = {
     */
     editEntry: function (textId, username, body, fileContent) {
         var editedText = body.diaryEntry;
-        var usersEntries = findUsersEntries(fileContent, username);
+        var usersEntries = findUsersEntries(fileContent, username); 
         for (var index in usersEntries) {
-            if (usersEntries[index].textID == textId) { //edited diary entry found 
+            if (usersEntries[index].textID == textId) { //edited diary entry found comparing textID 
                 usersEntries[index].diaryText = editedText; //diary entry text is updated
                 for (var index in fileContent) {
                     if (fileContent[index].name == username) { 
@@ -98,17 +98,17 @@ module.exports = {
         for (var indeksi in jsonContents) {
 
             if (jsonContents[indeksi].name == writer) { //if writer has already submitted diary entries
-                writerFound = true;
-                var olderJournalEntries = jsonContents[indeksi].diaryItemList;
-                jsonContents[indeksi].diaryItemList = makeDiaryItemList(olderJournalEntries, entry, entryDate, subject);
+                writerFound = true; //writer was found and has diary entries
+                var olderJournalEntries = jsonContents[indeksi].diaryItemList; //saves writers old entries to a variable
+                jsonContents[indeksi].diaryItemList = makeDiaryItemList(olderJournalEntries, entry, entryDate, subject); //makes a new entry and saves it to diaryitemlist
                 writeToDiaryFile('./files/data.json', jsonContents);
             }
         }
 
-        if (!writerFound) { //if diary entry is users first entry
+        if (!writerFound) { //if diary entry is writers first entry (new user)
             var newEntryText = [{ "date": entryDate, "subject": subject, "diaryText": entry, "textID": entryId }];
             var diaryEntryObject = { "name": writer, "diaryItemList": newEntryText }
-            jsonContents.push(diaryEntryObject);
+            jsonContents.push(diaryEntryObject); //Adds new writers diary entry to jsonContents 
             writeToDiaryFile('./files/data.json', jsonContents);
         }
 
