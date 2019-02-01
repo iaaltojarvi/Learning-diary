@@ -30,7 +30,8 @@ app.post('/logout', function (req, res) {
     res.redirect('/');
 });
 
-//GET all the diary entries from the data.json on "kovalevyn nurkalla" :D and return the file content.
+//GET all the diary entries from the data.json on "kovalevyn nurkalla" :D
+//and return the file content.
 router.route('/diaryEntries')
     .get(function (req, res) {
         reader.readDiaryFile('./files/data.json', function (fileContent) {
@@ -38,7 +39,11 @@ router.route('/diaryEntries')
         });
     })
 
-    //POST a new diary entry to data.json. Reads the data.json from HD and callback returns the file content. A function adds the new diary entry to the content and writes the content to the data.json. Res.json returns the new diary entry.
+    /*POST a new diary entry to data.json.
+        -Reads the data.json from HD and callback returns the file content.
+        -A function adds the new diary entry to the content and writes the content to the data.json.
+        -Res.json returns the new diary entry.
+    */
     .post(function (req, res) {
         reader.readDiaryFile('./files/data.json', function (contentsOfJson) {
             var newDiaryEntry = reader.saveNewEntryToJsonFile(req.body, contentsOfJson);
@@ -46,7 +51,10 @@ router.route('/diaryEntries')
         })
     })
 
-// DELETE a diary entry. Reads the data.json from HD and callback returns the file content. A function deletes the diary entry and writes the content to the data.json.
+/* DELETE a diary entry.
+    -Reads the data.json from HD and callback returns the file content.
+    -A function deletes the diary entry and writes the content to the data.json.
+*/
 router.route('/diaryEntries/:username/:textId')
     .delete(function (req, res) {
         reader.readDiaryFile('./files/data.json', function (contentsOfJson) {
@@ -55,7 +63,11 @@ router.route('/diaryEntries/:username/:textId')
         })
     })
 
-// PUT to update a diary entry. Reads the data.json from HD and callback returns the file content. A function updates the diary entry in the content and writes the content to the data.json.. Res.json sends user's all entries.
+/*PUT to update a diary entry.
+    -Reads the data.json from HD and callback returns the file content.
+    -A function updates the diary entry in the content and writes the content to the data.json.
+    -Res.json sends user's all entries.
+*/
     .put(function (req, res) {
         reader.readDiaryFile('./files/data.json', function (contentsOfJson) {
             var usersEntries = reader.editEntry(req.params.textId, req.params.username, req.body, contentsOfJson);
@@ -63,7 +75,11 @@ router.route('/diaryEntries/:username/:textId')
         })
     })
 
-//GET to return user's diaryentries (an array), if nothing was found sends an empty json array. Reads the data.json from the HD and callback returns the file content. A function returns user's entries and res.json sends user's all entries.
+/*GET to return user's diaryentries (an array).
+    -If nothing was found sendsan empty json array.
+    -Reads the data.json from the HD and callback returns the file content.
+    -A function returns user's entries and res.json sends user's all entries.
+*/
 router.route('/diaryEntries/:username')
     .get(function (req, res) {
         reader.readDiaryFile('./files/data.json', function (fileContent) {
