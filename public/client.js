@@ -1,7 +1,9 @@
 
 $(document).ready(function () {
+    // Wait until dom is ready
     // Greet user with "hey username!" using cookie
     // Remove problem of making "%20" as a space character(s)
+    // @author Ville
     const precookie = document.cookie.split("=");
     const find = "%20";
     var re = new RegExp(find, 'g');
@@ -9,25 +11,25 @@ $(document).ready(function () {
     const span = $('#welcome');
     span.text(`${cookie}`);
 
-     // Toggle between clicked - unclicked. Using this with Sort. 
+     // Toggle between clicked - unclicked.
    let $clickedSortName = false;
    let $clickedSortDate = false;
 
    // Containers
-   //var $entryList = $("#allEntries");
    var $showTable = $("#container");
    var $usersEntries = $("#accordion");
    $usersEntries.addClass('hide');
 
-    
-    /*
-        -prints all entries
+    /* 
+        - Prints All entries
         @author Mari
     */
+
    function printAllEntries(index, diaryText, date, subject, $entryList, writer ) {
                 $entryList.append($("<div>").addClass("panel panel-default").append($("<div>")
                 .addClass("panel-heading").attr("id", "allentryheading" +index).attr("role", "tab").append($("<h4>")
                 .addClass("panel-title").append($("<div>")
+                // Table is collapsing
                 .addClass("collapsed").attr("role", "button")
                 .attr("data-toggle", "collapse").attr("data-parent", "#allEntries").attr("href", "#allcollapse" +index)
                 .attr("aria-expanded", "false").attr("aria-controls", "collapse"+index)
@@ -50,6 +52,7 @@ $(document).ready(function () {
         - Create list Sorted by name.
         @author Ville
     */
+
     function createNameSorted() {
         $.getJSON('/api/diaryEntries', function (jsondata) {
             //$usersEntries.empty();
@@ -87,6 +90,7 @@ $(document).ready(function () {
         - Create list Sorted by date.
         @author Ville
     */
+
     $("#sortByDate").click(function() {
         $.getJSON('/api/diaryEntries', function (jsondata) {
         // Toggle between clicked - unclicked
@@ -134,9 +138,12 @@ $(document).ready(function () {
         });
 
    /*
+        - My Entries List
         -prints user entries
         @author Mari
+
     */
+
     function myEntriesList() {
         $.getJSON('/api/diaryEntries/' + cookie, function (jsondata) {
             var $MyEntryList = $("#accordion");
@@ -146,16 +153,12 @@ $(document).ready(function () {
             $MyEntryList.empty();
             $showTable.addClass('hide');
             var journalItems = jsondata;
-            console.log("users entries data: ", journalItems);
-            console.log("haetaan userin entryt ", cookie);
             for (var index in journalItems) {
                 var writer = cookie;
                 var textId = journalItems[index].textID;
                 var diaryText = journalItems[index].diaryText;
                 var date = journalItems[index].date;
                 var subject = journalItems[index].subject;
-                
-                //console.log("tulostetaan rivia", index);
                 
                 //entry message preview
                 $MyEntryList.append($("<div>").addClass("panel panel-default").append($("<div>")
@@ -191,26 +194,21 @@ $(document).ready(function () {
 
 
     /*
-        -add to list
+        - Add to list
         @author Ville, Mari
     */
+
     function addToList() {
-        const dateField = $("#date").val();
-        const learnedField = $("#learned").val();
-        const subjectField = $("#subject").val();
-        // If empty fields --> do nothing!
-        if(dateField === "" || learnedField === "" || subjectField === "") {
-            return;
-        };
-        // var $writer = $("#writer").val();
-        var writer = cookie;
-        console.log("kirjoittaja", writer); //value from cookie
+         // If input fields are empty --> return function and do nothing!
         var $date = $("#date").val();
         var $entry = $("#learned").val();
         var $subject = $("#subject").val();
-
+        if($date === "" || $entry === "" || $subject === "") {
+            return;
+        };
+      
+        var writer = cookie;
         var diaryEntry = { "name": writer, "diaryEntry": $entry, "date": $date, "subject": $subject };
-        //console.dir(JSON.stringify(diaryEntry));
        
         var settings = {
             "async": true,
@@ -224,13 +222,15 @@ $(document).ready(function () {
             },
             "processData": false,
             "data": JSON.stringify(diaryEntry)
-        }
+        };
+
+        // Clear input fields:
 
         $("#date").val("");
         $("#learned").val("");
         $("#subject").val("");
          
-        $.ajax(settings).done(function (response) { //$.ajax(settings) lähettää post:ina
+        $.ajax(settings).done(function (response) { 
             console.log("postin vastaus", response);
         });
     };
@@ -259,10 +259,9 @@ $(document).ready(function () {
         createNameSorted();
     });
 
-    // Deleting a message
+    // Delete button: Deleting a message
     $(".panel-group").on('click','.btn-del', function(){
 
-        //Vaatii tuloksen käsittelyn tauluun
         var username = cookie;
         console.log("username", cookie);
         var textId = $(this).val();
@@ -280,39 +279,38 @@ $(document).ready(function () {
                 "Cache-Control": "no-cache"
             },
             "processData": false,
-        // "data": JSON.stringify(textId)
         }
 
         
-        $.ajax(settings).done(function (response) { //$.ajax(settings) lähettää post:ina
+        $.ajax(settings).done(function (response) { 
             console.log("postin vastaus", response);
 
         });
  
     });
 
+    // Edit button: Editing a message
     $(".panel-group").on('click','.btn-edit', function(){
-        console.log("klikkasit edittiä");
 
         var idd = this.id; // get pressed buttons id which is edit(+index number, edit1, edit2 etc..), we need id number
         var idnumber = idd.slice(4); //remove 4 chars from the beginning of the string, rest is the index
         var $saveButton = $("#save" +idnumber); //save buttons id
+
         $saveButton.css("display","inline"); //makes save button visible
-
-        $("#area"+idnumber).prop("readonly", false);
-
+        $("#area"+idnumber).prop("readonly", false);  // make textarea editable
         
         $(this).css("display", "none");   //hide edit button, we don't need it anymore
  
     });
 
+    // Save button: Saving a message
     $(".panel-group").on('click','.btn-save', function(){
 
         //Vaatii tuloksen käsittelyn tauluun
         var username = cookie;
         console.log("username", cookie);
-        var idd = this.id;
-        var idnumber = idd.slice(4);
+        var idd = this.id; //idd = savexxx, xxx is some number value depending on index
+        var idnumber = idd.slice(4);// idnumber is xxx
         console.log("id", idnumber); 
         var $entry = $("#area"+idnumber).val();
         console.log("muokattu teksti", $entry);
